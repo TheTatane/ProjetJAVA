@@ -6,6 +6,6 @@ import View.Fenetre;
 
 public class Main {
     public static void main (String[] args){
-        Fenetre f = new Fenetre(1000, 800, "Jeux Abalone & Dame");
+        Fenetre f = new Fenetre(1000, 800, "Jeux Abalone");
     }
 }

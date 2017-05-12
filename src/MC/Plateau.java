@@ -491,4 +491,8 @@ public class Plateau {
         System.out.println("\n");
     }
 
+    public Case[] getPlateau() {
+        return plateau;
+    }
+
 }

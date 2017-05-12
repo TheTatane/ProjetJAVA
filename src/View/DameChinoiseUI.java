@@ -11,12 +11,74 @@ import java.awt.*;
  */
 public class DameChinoiseUI extends JPanel {
 
+    JButton tabbutton[] = new JButton[122];
+
     public DameChinoiseUI(){
         this.setBackground(Color.cyan);
-        //draw grid ?
+        this.setLayout(new GridBagLayout());
+        for(int i=1; i<=121; i++){
+            tabbutton[i] = new JButton();
+            tabbutton[i].setPreferredSize(new Dimension(50,50));
+        }
     }
 
     public void draw(Plateau p){
-        System.out.println("Dame chinoise draw");
+        int linelength=0;
+        GridBagConstraints constraint = new GridBagConstraints();
+        constraint.gridx=14;constraint.gridy=0;constraint.gridheight=1; constraint.gridwidth=1;
+        for(int i=1; i<=10; i++){
+            tabbutton[i].setBackground(Color.gray);
+            this.add(tabbutton[i], constraint);
+            linelength++;
+
+            if(p.getPlateau()[i].getDroite() == null){
+                constraint.gridy += 1;
+                constraint.gridx -= (linelength*2)-1;
+                linelength=0;
+            }
+            else{
+                constraint.gridx += 2;
+            }
+        }
+
+        linelength=0;
+        constraint.gridx=2; constraint.gridy+=1;
+        for(int i=11; i<=56; i++){
+            tabbutton[i].setBackground(Color.gray);
+            this.add(tabbutton[i], constraint);
+            linelength++;
+            if(p.getPlateau()[i].getDroite() == null && (i>11 && i<65)){
+                constraint.gridy += 1;
+                constraint.gridx -= (linelength*2)-1;
+                linelength=0;
+            }
+            else if(p.getPlateau()[i].getDroite() == null && (i>65 && i<112)){
+                constraint.gridy += 1;
+                constraint.gridx -= (linelength*2)+1;
+                linelength=0;
+            }
+            else{
+                constraint.gridx += 2;
+            }
+        }
+
+/*
+        constraint.gridx=14;constraint.gridy+=1;
+        for(int i=112; i<=121; i++){
+            tabbutton[i].setBackground(Color.gray);
+            this.add(tabbutton[i], constraint);
+            linelength++;
+
+            if(p.getPlateau()[i].getDroite() == null){
+                constraint.gridy += 1;
+                constraint.gridx -= (linelength*2)+1;
+                linelength=0;
+            }
+            else{
+                constraint.gridx += 2;
+            }
+        }
+*/
+        this.setVisible(true);
     }
 }

@@ -492,6 +492,7 @@ public class Plateau {
     }
 
     public Case[] getPlateau() {
+        //
         return plateau;
     }
 

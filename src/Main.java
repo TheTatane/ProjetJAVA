@@ -10,5 +10,6 @@ public class Main {
         Fenetre f = new Fenetre(1100, 800, "Jeux");
         DameChinoise dm = new DameChinoise(2);
         f.dameChinoiseUI.draw(dm.getPlateau());
+
     }
 }

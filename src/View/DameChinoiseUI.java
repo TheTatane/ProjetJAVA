@@ -23,6 +23,7 @@ public class DameChinoiseUI extends JPanel {
     }
 
     public void draw(Plateau p){
+
         int linelength=0;
         GridBagConstraints constraint = new GridBagConstraints();
         constraint.gridx=14;constraint.gridy=0;

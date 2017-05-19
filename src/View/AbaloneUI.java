@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class AbaloneUI extends JPanel {
 
-    public AbaloneUI(){
+    public AbaloneUI(Plateau p){
         this.setBackground(Color.black);
         //draw grid ?
     }

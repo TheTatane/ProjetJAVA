@@ -2,6 +2,7 @@ package View;
 
 import MC.Abalone;
 import MC.DameChinoise;
+import MC.Jeux;
 import MC.Plateau;
 
 import java.awt.*;
@@ -21,8 +22,9 @@ public class Fenetre extends JFrame implements ActionListener {
     JButton bAbalone, bDameChinoise;
     CardLayout cl = new CardLayout();
     Menu menu = new Menu();
-    public AbaloneUI abaloneUI = new AbaloneUI();
-    public DameChinoiseUI dameChinoiseUI = new DameChinoiseUI();
+    AbaloneUI abaloneUI;
+    DameChinoiseUI dameChinoiseUI;
+    Jeux jeu;
 
 	public Fenetre(int W, int H, String T){
 		height=H;
@@ -40,6 +42,14 @@ public class Fenetre extends JFrame implements ActionListener {
         menu.bJouer.addActionListener(this);
         setContentPane(menu);
         setVisible(true);
+    }
+
+    public void setJeu(Jeux j){
+        jeu=j;
+        if(j.getClass() == DameChinoise.class)
+            dameChinoiseUI = new DameChinoiseUI(jeu);
+        if(j.getClass() == Abalone.class)
+            abaloneUI = new AbaloneUI(jeu.getPlateau());
     }
 
     @Override

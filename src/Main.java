@@ -8,8 +8,9 @@ public class Main {
     public static void main (String[] args){
 
         Fenetre f = new Fenetre(1100, 800, "Jeux");
+
         DameChinoise dm = new DameChinoise(2);
-        f.dameChinoiseUI.draw(dm.getPlateau());
+        f.setJeu(dm);
 
     }
 }

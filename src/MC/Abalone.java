@@ -15,7 +15,7 @@ public class Abalone extends Jeux {
         this.joueur=new String[2];
         this.score=new int[2];
         this.jcolor = new ArrayList[2];
-        this.plateau=new PlateauAbalone(this.jcolor);
+        this.plateau=new PlateauAbalone(/*this.jcolor*/);
     }
 
     /*

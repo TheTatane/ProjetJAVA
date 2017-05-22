@@ -44,4 +44,43 @@ public class Plateau {
         return plateau[i];
     }
 
+
+    public void affichePlateau()
+    {
+        int nb=4;
+
+        for(int i = 1; i < 62;i++) {
+            afficher_voisins_console(plateau[i]);
+        }
+
+
+
+        for(int j = 0; j<nb;j++)
+        {
+            System.out.print(" ");
+        }
+
+        for(int i = 1; i < 62;i++)
+        {
+
+            if (plateau[i].getDroite() == null)
+            {
+                System.out.print("0 ");
+                System.out.println("");
+
+                nb = i<35 ? nb-1 : nb+1;
+
+                for(int j = 0; j<nb;j++)
+                {
+                    System.out.print(" ");
+                }
+            }
+            else
+            {
+                System.out.print("0 ");
+
+            }
+        }
+    }
+
 }

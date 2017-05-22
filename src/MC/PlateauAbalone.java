@@ -8,7 +8,11 @@ import java.util.ArrayList;
  */
 public class PlateauAbalone extends Plateau{
 
-    public PlateauAbalone(ArrayList<Color> joueurColor[]) {
+    ArrayList<Color> jColor[];
+
+    public PlateauAbalone(/*ArrayList<Color> joueurColor[]*/) {
+
+        //jColor=joueurColor;
         plateau = new Case[62];
         for (int i = 0; i <= 61; i++) {
             plateau[i] = new Case(i, 0, null, null, null, null, null, null);
@@ -130,4 +134,5 @@ public class PlateauAbalone extends Plateau{
             plateau[i].setH_droite(plateau[i-5]);
         }
     }
+
 }

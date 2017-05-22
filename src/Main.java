@@ -1,7 +1,4 @@
-import MC.Abalone;
-import MC.DameChinoise;
-import MC.Jeux;
-import MC.Plateau;
+import MC.*;
 import View.Fenetre;
 
 public class Main {
@@ -9,8 +6,14 @@ public class Main {
 
         Fenetre f = new Fenetre(1100, 800, "Jeux");
 
+        Abalone AB = new Abalone();
         DameChinoise dm = new DameChinoise(2);
         f.setJeu(dm);
+        f.setJeu(AB);
+
+        // TESTS //
+        //PlateauAbalone plateau=new PlateauAbalone();
+        //plateau.affichePlateau();
 
     }
 }

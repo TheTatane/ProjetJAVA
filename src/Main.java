@@ -12,8 +12,11 @@ public class Main {
         f.setJeu(AB);
 
         // TESTS //
-        //PlateauAbalone plateau=new PlateauAbalone();
-        //plateau.affichePlateau();
-
+        /*
+        AB.getPlateau().affichePlateau();
+        AB.jouerCoup('H',47);
+        System.out.println();
+        AB.getPlateau().affichePlateau();
+        */
     }
 }

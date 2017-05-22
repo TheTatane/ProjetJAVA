@@ -2,9 +2,10 @@ package MC;
 
 
 public class Plateau {
+
     protected Case plateau[];
 
-    public Plateau(){}
+    public Plateau() { }
 
     public void parcours_graphe_console() {
 
@@ -44,7 +45,6 @@ public class Plateau {
         return plateau[i];
     }
 
-
     public void affichePlateau()
     {
         int nb=4;
@@ -53,8 +53,6 @@ public class Plateau {
             afficher_voisins_console(plateau[i]);
         }
 
-
-
         for(int j = 0; j<nb;j++)
         {
             System.out.print(" ");
@@ -62,10 +60,9 @@ public class Plateau {
 
         for(int i = 1; i < 62;i++)
         {
-
             if (plateau[i].getDroite() == null)
             {
-                System.out.print("0 ");
+                System.out.print(plateau[i].getPion().getValeur()+" ");
                 System.out.println("");
 
                 nb = i<35 ? nb-1 : nb+1;
@@ -77,8 +74,7 @@ public class Plateau {
             }
             else
             {
-                System.out.print("0 ");
-
+                System.out.print(plateau[i].getPion().getValeur()+" ");
             }
         }
     }

@@ -3,11 +3,19 @@ package MC;
 import java.awt.*;
 
 public class Pion {
+
+    private int valeur;
     private Color couleur;
 
-    public Pion(){couleur=null;}
-    public Pion(Color C){
+    public Pion()
+    {
+        couleur=null;
+        valeur=0;
+    }
+    public Pion(Color C, int val)
+    {
         couleur=C;
+        valeur=val;
     }
 
     public Color getCouleur() {
@@ -20,6 +28,10 @@ public class Pion {
     public void setCouleur(Color couleur) {
         this.couleur = couleur;
     }
+
+    public void setValeur(int val) { valeur=val; }
+
+    public int getValeur() { return valeur; }
 
     @Override
     public String toString() {

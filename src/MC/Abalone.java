@@ -18,6 +18,33 @@ public class Abalone extends Jeux {
         this.plateau=new PlateauAbalone(/*this.jcolor*/);
     }
 
+
+    //Début de test pour les déplacements
+    public void jouerCoup(char direction, int pion)
+    {
+
+        int val;
+
+        switch (direction)
+        {
+            case 'H' : System.out.println("ici");
+                if(plateau.getPlateau()[pion].getH_gauche()==null);
+            {
+                val=plateau.getPlateau()[pion].getPion().getValeur();
+                plateau.getPlateau()[pion].getPion().setValeur(0);
+                plateau.getPlateau()[pion].getH_gauche().getPion().setValeur(val);
+            }
+
+            break;
+            case 'B' : break;
+            case 'D' : break;
+
+        }
+    }
+
+
+
+
     /*
     GETTER & SETTER
      */

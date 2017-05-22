@@ -18,7 +18,7 @@ public class Jeux {
     CONSTRUCTEUR
      */
 
-    public Jeux() {}
+    public Jeux() { }
 
     /*
         GETTER & SETTER

@@ -1,7 +1,7 @@
 package MC;
 
 
-public class Plateau {
+public abstract class Plateau {
     protected Case plateau[];
 
     public Plateau(){}
@@ -35,6 +35,8 @@ public class Plateau {
         }
         System.out.println("\n");
     }
+
+    public abstract void createBoard();
 
     public Case[] getPlateau() {
         return plateau;

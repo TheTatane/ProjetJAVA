@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by QUENTIN on 29/04/2017.
  */
-public class Jeux {
+public abstract class Jeux {
 
     protected Plateau plateau;
     protected String joueur[];
@@ -14,7 +14,7 @@ public class Jeux {
     protected String modeJeu;
     protected ArrayList<Color> jcolor[];
 
-    /*
+/*
     CONSTRUCTEUR
      */
 
@@ -51,7 +51,11 @@ public class Jeux {
         return plateau;
     }
 
-    /*
-    FONCTIONS POUR SAUVEGARDER LES DONNEES DANS BD
-     */
+    public ArrayList<Color>[] getJcolor() {
+        return jcolor;
+    }
+
+    public void setJcolor(ArrayList<Color>[] jcolor) {
+        this.jcolor = jcolor;
+    }
 }

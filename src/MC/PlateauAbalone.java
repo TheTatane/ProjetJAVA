@@ -13,10 +13,10 @@ public class PlateauAbalone extends Plateau{
         for (int i = 0; i <= 61; i++) {
             plateau[i] = new Case(i, 0, null, null, null, null, null, null);
         }
-        create_board_abalone();
+        createBoard();
     }
 
-    public void create_board_abalone() {
+    public void createBoard() {
         int i;
         //row 1
         for(i=1; i<=5; i++){

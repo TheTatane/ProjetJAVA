@@ -18,11 +18,11 @@ public class PlateauDC extends Plateau {
             plateau[i] = new Case(i, 0, null, null, null, null, null, null);
         }
         joueurColor=jc;
-        create_board_chinois();
+        createBoard();
         setPion2joueur(2);
     }
 
-    public void create_board_chinois() {
+    public void createBoard() {
         /////////////////////////////////  TRIANGLE SOMMET ///////////////////////////////////
         //N1
 
@@ -347,7 +347,7 @@ public class PlateauDC extends Plateau {
         return false;
     }
 
-    void setPion2joueur(int nb_color){
+    public void setPion2joueur(int nb_color){
 
         init_rouge();joueurColor[0].add(Color.red);// j1
         init_bleu();joueurColor[1].add(Color.blue);//  j2
@@ -366,7 +366,7 @@ public class PlateauDC extends Plateau {
         }
     }
 
-    void setPion3joueur(int nb_color){
+    public void setPion3joueur(int nb_color){
         init_rouge();joueurColor[0].add(Color.red);// j1
         init_violet();joueurColor[1].add(Color.pink);// j2
         init_noir();joueurColor[2].add(Color.black);//   j3
@@ -377,14 +377,14 @@ public class PlateauDC extends Plateau {
         }
     }
 
-    void setPion4joueur(){
+    public void setPion4joueur(){
         init_rouge();joueurColor[0].add(Color.red);
         init_bleu();joueurColor[1].add(Color.blue);
         init_violet();joueurColor[2].add(Color.pink);
         init_jaune();joueurColor[3].add(Color.yellow);
     }
 
-    void init_rouge(){
+    public void init_rouge(){
         // intervalle [1;10]
         for(int i=1; i<=10 ; i++){
             plateau[i].setPion(Color.red);
@@ -392,7 +392,7 @@ public class PlateauDC extends Plateau {
         }
     }
 
-    void init_bleu(){
+    public void init_bleu(){
         // intervalle [112;121]
         for(int i=112; i<=121 ; i++){
             plateau[i].setPion(Color.blue);
@@ -400,7 +400,7 @@ public class PlateauDC extends Plateau {
         }
     }
 
-    void init_noir(){
+    public void init_noir(){
         // intervalle [75] U [85;86] U [96;98] U [108;111]
         plateau[75].setPion(Color.black);plateau[75].setEtat(1);
         plateau[85].setPion(Color.black);plateau[86].setPion(Color.black);plateau[85].setEtat(1);plateau[86].setEtat(1);
@@ -412,7 +412,7 @@ public class PlateauDC extends Plateau {
 
     }
 
-    void init_violet(){
+    public void init_violet(){
         // intervalle [66] U [76;77] U [87;89] U [99;102]
         plateau[66].setPion(Color.pink);plateau[66].setEtat(1);
         plateau[76].setPion(Color.pink);plateau[77].setPion(Color.pink);plateau[76].setEtat(1);plateau[77].setEtat(1);
@@ -423,7 +423,7 @@ public class PlateauDC extends Plateau {
         }
     }
 
-    void init_vert(){
+    public void init_vert(){
         // intervalle [47] U [36;37] U [24;26] U [11;14]
         plateau[47].setPion(Color.green);plateau[47].setEtat(1);
         plateau[36].setPion(Color.green);plateau[37].setPion(Color.green);plateau[36].setEtat(1);plateau[37].setEtat(1);
@@ -434,7 +434,7 @@ public class PlateauDC extends Plateau {
         }
     }
 
-    void init_jaune(){
+    public void init_jaune(){
         // intervalle [56] U [45;46] U [33;35] U [20;23]
         plateau[56].setPion(Color.yellow);plateau[56].setEtat(1);
         plateau[45].setPion(Color.yellow);plateau[46].setPion(Color.yellow);plateau[45].setEtat(1);plateau[46].setEtat(1);
@@ -444,5 +444,222 @@ public class PlateauDC extends Plateau {
             plateau[i].setEtat(1);
         }
     }
+
+    public void changePosition(Case orig, Case dest){
+        orig.setEtat(0);
+        dest.getPion().setCouleur(orig.getPion().getCouleur());
+        dest.setEtat(1);
+        orig.getPion().setCouleur(null);
+    }
+
+    public int[] sauts_disponibles(Case c){
+        int i=0;
+        int dispo[] =new int[6]; //tableau des cases disponibles
+        if (c.getEtat()== 0){
+            return dispo;
+        }
+
+        //saut à droite
+        if (c.getDroite() != null){
+            if (c.getDroite().getDroite() != null && c.getDroite().getDroite().getEtat() == 0){
+                (dispo)[i]=c.getDroite().getDroite().getId();
+                i++;
+            }
+        }
+
+        //saut à gauche
+        if (c.getGauche() != null){
+            if (c.getGauche().getGauche() != null && c.getGauche().getGauche().getEtat() == 0){
+                (dispo)[i]=c.getGauche().getGauche().getId();
+                i++;
+            }
+        }
+
+        //saut haut droite
+        if (c.getH_droite() != null){
+            if (c.getH_droite().getH_droite() != null && c.getH_droite().getH_droite().getEtat() == 0){
+                (dispo)[i]=c.getH_droite().getH_droite().getId();
+                i++;
+            }
+        }
+
+        //saut haut gauche
+        if (c.getH_gauche() != null){
+            if (c.getH_gauche().getH_gauche()!= null && c.getH_gauche().getH_gauche().getEtat() == 0){
+                (dispo)[i]=c.getH_gauche().getH_gauche().getId();
+                i++;
+            }
+        }
+
+        //saut bas droite
+        if (c.getB_droite() != null){
+            if (c.getB_droite().getB_droite() != null && c.getB_droite().getB_droite().getEtat() == 0){
+                (dispo)[i]=c.getB_droite().getB_droite().getId();
+                i++;
+            }
+        }
+
+        //saut bas gauche
+        if (c.getB_gauche() != null){
+            if (c.getB_gauche().getB_gauche() != null && c.getB_gauche().getB_gauche().getEtat() == 0){
+                (dispo)[i]=c.getB_gauche().getB_gauche().getId();
+                i++;
+            }
+        }
+        return dispo;
+    }
+
+    public int[] deplacements_possibles(Case c){
+
+        int i=0;
+        int dispo[] = new int[6]; //tableau des sauts+deplacement simple
+
+        if (c.getEtat() == 0){
+            return dispo;
+        }
+
+        //mouvements à droite
+        if (c.getDroite() != null){
+            if (c.getDroite().getEtat() == 0){
+                (dispo)[i]=c.getDroite().getId();
+                i++;
+            }
+        else if (c.getDroite().getDroite() != null && c.getDroite().getDroite().getEtat() == 0){
+                (dispo)[i]=c.getDroite().getDroite().getId();
+                i++;
+            }
+        }
+
+        //mouvements à gauche
+        if (c.getGauche() != null){
+            if (c.getGauche().getEtat() == 0){
+                (dispo)[i]=c.getGauche().getId();
+                i++;
+            }
+        else if (c.getGauche().getGauche() != null && c.getGauche().getGauche().getEtat() == 0){
+                (dispo)[i]=c.getGauche().getGauche().getId();
+                i++;
+            }
+        }
+
+        //mouvements haut droite
+        if (c.getH_droite() != null){
+            if (c.getH_droite().getEtat() == 0){
+                (dispo)[i]=c.getH_droite().getId();
+                i++;
+            }
+        else if (c.getH_droite().getH_droite() != null && c.getH_droite().getH_droite().getEtat() == 0){
+                (dispo)[i]=c.getH_droite().getH_droite().getId();
+                i++;
+            }
+        }
+
+        //mouvements haut gauche
+        if (c.getH_gauche() != null){
+            if (c.getH_gauche().getEtat() == 0){
+                (dispo)[i]=c.getH_gauche().getId();
+                i++;
+            }
+        else if (c.getH_gauche().getH_gauche() != null && c.getH_gauche().getH_gauche().getEtat() == 0){
+                (dispo)[i]=c.getH_gauche().getH_gauche().getId();
+                i++;
+            }
+        }
+
+        //mouvements bas droite
+        if (c.getB_droite() != null){
+            if (c.getB_droite().getEtat() == 0){
+                (dispo)[i]=c.getB_droite().getId();
+                i++;
+            }
+        else if (c.getB_droite().getB_droite() != null && c.getB_droite().getB_droite().getEtat() == 0){
+                (dispo)[i]=c.getB_droite().getB_droite().getId();
+                i++;
+            }
+        }
+
+        //mouvements bas gauche
+        if (c.getB_gauche() != null){
+            if (c.getB_gauche().getEtat() == 0){
+                (dispo)[i]=c.getB_gauche().getId();
+                i++;
+            }
+        else if (c.getB_gauche().getB_gauche() != null && c.getB_gauche().getB_gauche().getEtat() == 0){
+                (dispo)[i]=c.getB_gauche().getB_gauche().getId();
+                i++;
+            }
+        }
+
+        return dispo;
+    }
+
+    public boolean isSaut(Case src, Case dest){
+        int sautDispo[] = sauts_disponibles(src);
+            for (int i=0 ; i<6; i++){
+                if ((sautDispo)[i] == dest.getId()){
+                    return true;
+                }
+            }
+            return false;
+    }
+
+    public boolean isSautLegitime(ArrayList<Color> jcolor, Case src, Case dest){
+        System.out.print("SRC="+src.getId()+" / DEST="+dest.getId());
+        jcolor.toString();
+        if(isSaut(src, dest)){
+            if(dest.getId() < src.getId()) {
+                if(src.getGauche().getGauche() != null) {
+                    if (src.getGauche().getGauche().equals(dest)) {
+                        if (jcolor.contains(src.getGauche().getPion().getCouleur()))
+                            return false;
+                    }
+                }
+                if(src.getH_gauche().getH_gauche() != null) {
+                    if (src.getH_gauche().getH_gauche().equals(dest)) {
+                        if (jcolor.contains(src.getH_gauche().getPion().getCouleur()))
+                            return false;
+                    }
+                }
+                if(src.getH_droite().getH_droite() != null) {
+                    if (src.getH_droite().getH_droite().equals(dest)) {
+                        if (jcolor.contains(src.getH_droite().getPion().getCouleur()))
+                            return false;
+                    }
+                }
+            }
+            else{
+                if(src.getDroite().getDroite() != null) {
+                    if (src.getDroite().getDroite().equals(dest)) {
+                        if (jcolor.contains(src.getDroite().getPion().getCouleur()))
+                            return false;
+                    }
+                }
+                if(src.getB_gauche().getB_gauche() != null) {
+                    if (src.getB_gauche().getB_gauche().equals(dest)) {
+                        if (jcolor.contains(src.getB_gauche().getPion().getCouleur()))
+                            return false;
+                    }
+                }
+                if(src.getB_droite().getB_droite() != null) {
+                    if (src.getB_droite().getB_droite().equals(dest)) {
+                        if (jcolor.contains(src.getB_droite().getPion().getCouleur()))
+                            return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean deplacementDisponible(int src, int dest){
+        int dispo[] = deplacements_possibles(plateau[src]);
+        for(int i=0; i<6; i++){
+            if(dispo[i] == dest){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

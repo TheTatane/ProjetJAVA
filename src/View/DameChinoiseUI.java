@@ -3,9 +3,11 @@ package View;
 import MC.*;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.RoundRectangle2D;
 
 /**
  * Created by QUENTIN on 02/05/2017.
@@ -25,9 +27,13 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
         dc=jeu;
         for(int i=1; i<=121; i++){
             tabbutton[i] = new JButton();
-            tabbutton[i].setPreferredSize(new Dimension(20,20));
-            tabbutton[i].setBackground(plateau.getPlateau()[i].getPion().getCouleur());
+            tabbutton[i].setPreferredSize(new Dimension(23,20));
+            tabbutton[i].setBackground(Color.cyan);
             tabbutton[i].setName(Integer.toString(i));
+            //tabbutton[i].setBorder(new LineBorder(Color.cyan));
+            tabbutton[i].setBorder(new RoundedBorder(40));
+            tabbutton[i].setForeground(plateau.getPlateau()[i].getPion().getCouleur());
+
         }
         draw();
     }
@@ -106,19 +112,18 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
             for(int i=0; i<6; i++){
                 System.out.print(dispo[i]+"/");
             }
+            showMouvDispo(dispo);
 
         }
         else{
+            hideMouvDispo(plateau.deplacements_possibles(plateau.getPlateau()[idsrc]));
             iddest = Integer.parseInt(btn.getName());
             if(plateau.deplacementDisponible(idsrc, iddest)){
                 if(plateau.isSaut(plateau.getCase(idsrc), plateau.getCase(iddest))) {
                     System.out.println("SAUT");
-                    // getJcolor()[0] temporaire car depend du tour de la personne
-                    if (plateau.isSautLegitime(dc.getJcolor()[0], plateau.getCase(idsrc), plateau.getCase(iddest))) {
-                        System.out.println("\t SAUT VALIDE");
-                        plateau.changePosition(plateau.getCase(idsrc), plateau.getCase(iddest));
-                        swapUI(idsrc, iddest);
-                    }
+                    plateau.changePosition(plateau.getCase(idsrc), plateau.getCase(iddest));
+                    swapUI(idsrc, iddest);
+
                 }
                 else{
                     System.out.println("NORMAL");
@@ -135,7 +140,27 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
 
     public void swapUI(int idsrc, int iddest){
         JButton tmp = tabbutton[iddest];
-        tabbutton[iddest].setBackground(tabbutton[idsrc].getBackground());
-        tabbutton[idsrc].setBackground(plateau.getCase(idsrc).getPion().getCouleur());
+
+        tabbutton[iddest].setForeground(tabbutton[idsrc].getForeground());
+        tabbutton[idsrc].setForeground(plateau.getCase(idsrc).getPion().getCouleur());
+
+    }
+
+    public void showMouvDispo(int dispo[]){
+        for(int i=0; i<6; i++){
+            if(dispo[i] != 0){
+                tabbutton[dispo[i]].setBorder(new LineBorder(Color.green, 2));
+                tabbutton[dispo[i]].setBackground(plateau.getCase(dispo[i]).getPion().getCouleur());
+            }
+        }
+    }
+
+    public void hideMouvDispo(int dispo[]){
+        for(int i=0; i<6; i++){
+            if(dispo[i] != 0){
+                tabbutton[dispo[i]].setBorder(new RoundedBorder(20));
+                tabbutton[dispo[i]].setBackground(Color.cyan);
+            }
+        }
     }
 }

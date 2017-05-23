@@ -608,42 +608,56 @@ public class PlateauDC extends Plateau {
         jcolor.toString();
         if(isSaut(src, dest)){
             if(dest.getId() < src.getId()) {
-                if(src.getGauche().getGauche() != null) {
-                    if (src.getGauche().getGauche().equals(dest)) {
-                        if (jcolor.contains(src.getGauche().getPion().getCouleur()))
-                            return false;
+
+                if(src.getGauche() != null) {
+                    if (src.getGauche().getGauche() != null) {
+                        if (src.getGauche().getGauche().equals(dest)) {
+                            if (jcolor.contains(src.getGauche().getPion().getCouleur()))
+                                return false;
+                        }
                     }
                 }
-                if(src.getH_gauche().getH_gauche() != null) {
-                    if (src.getH_gauche().getH_gauche().equals(dest)) {
-                        if (jcolor.contains(src.getH_gauche().getPion().getCouleur()))
-                            return false;
+                if(src.getH_gauche() != null) {
+                    if (src.getH_gauche().getH_gauche() != null) {
+                        if (src.getH_gauche().getH_gauche().equals(dest)) {
+                            if (jcolor.contains(src.getH_gauche().getPion().getCouleur()))
+                                return false;
+                        }
                     }
                 }
-                if(src.getH_droite().getH_droite() != null) {
-                    if (src.getH_droite().getH_droite().equals(dest)) {
-                        if (jcolor.contains(src.getH_droite().getPion().getCouleur()))
-                            return false;
+                if(src.getH_droite() != null) {
+                    if (src.getH_droite().getH_droite() != null) {
+                        if (src.getH_droite().getH_droite().equals(dest)) {
+                            if (jcolor.contains(src.getH_droite().getPion().getCouleur()))
+                                return false;
+                        }
                     }
                 }
             }
+
             else{
-                if(src.getDroite().getDroite() != null) {
-                    if (src.getDroite().getDroite().equals(dest)) {
-                        if (jcolor.contains(src.getDroite().getPion().getCouleur()))
-                            return false;
+                if(src.getDroite() != null) {
+                    if (src.getDroite().getDroite() != null) {
+                        if (src.getDroite().getDroite().equals(dest)) {
+                            if (jcolor.contains(src.getDroite().getPion().getCouleur()))
+                                return false;
+                        }
                     }
                 }
-                if(src.getB_gauche().getB_gauche() != null) {
-                    if (src.getB_gauche().getB_gauche().equals(dest)) {
-                        if (jcolor.contains(src.getB_gauche().getPion().getCouleur()))
-                            return false;
+                if(src.getB_gauche() != null) {
+                    if (src.getB_gauche().getB_gauche() != null) {
+                        if (src.getB_gauche().getB_gauche().equals(dest)) {
+                            if (jcolor.contains(src.getB_gauche().getPion().getCouleur()))
+                                return false;
+                        }
                     }
                 }
-                if(src.getB_droite().getB_droite() != null) {
-                    if (src.getB_droite().getB_droite().equals(dest)) {
-                        if (jcolor.contains(src.getB_droite().getPion().getCouleur()))
-                            return false;
+                if(src.getB_droite() != null) {
+                    if (src.getB_droite().getB_droite() != null) {
+                        if (src.getB_droite().getB_droite().equals(dest)) {
+                            if (jcolor.contains(src.getB_droite().getPion().getCouleur()))
+                                return false;
+                        }
                     }
                 }
             }
@@ -692,4 +706,5 @@ public class PlateauDC extends Plateau {
         }
         System.out.println("\n");
     }
+
 }

@@ -8,6 +8,8 @@ import java.util.ArrayList;
  */
 public class PlateauAbalone extends Plateau{
 
+    private static int decalage=2;
+    private static int PION_MAX=62;
     ArrayList<Color> jColor[];
     private int nbBlanc;
     private int nbNoir;
@@ -155,13 +157,13 @@ public class PlateauAbalone extends Plateau{
 
     public void initPlateau()
     {
-        for (int i=1; i<= nbNoir+2;i++)
+        for (int i=1; i<= nbNoir+decalage;i++)
         {
             if (i<=11 || i>13 )
                 plateau[i].getPion().setValeur(1);
         }
 
-        for (int i=62-nbBlanc-2; i< 62; i++)
+        for (int i=PION_MAX-nbBlanc-decalage; i< PION_MAX; i++)
         {
             if ((i>=46 && i<=48) || i>=51)
                 plateau[i].getPion().setValeur(2);
@@ -177,7 +179,7 @@ public class PlateauAbalone extends Plateau{
             System.out.print(" ");
         }
 
-        for(int i = 1; i < 62;i++)
+        for(int i = 1; i < PION_MAX;i++)
         {
             if (plateau[i].getDroite() == null)
             {

@@ -8,15 +8,36 @@ import java.util.ArrayList;
  */
 public class PlateauAbalone extends Plateau{
 
-    public PlateauAbalone(ArrayList<Color> joueurColor[]) {
+    ArrayList<Color> jColor[];
+    private int nbBlanc;
+    private int nbNoir;
+
+    public PlateauAbalone(/*ArrayList<Color> joueurColor[]*/) {
+
+        //jColor=joueurColor;
+        nbBlanc=14;
+        nbNoir=14;
         plateau = new Case[62];
         for (int i = 0; i <= 61; i++) {
             plateau[i] = new Case(i, 0, null, null, null, null, null, null);
         }
-        createBoard();
+        create_board_abalone();
+        initPlateau();
     }
 
-    public void createBoard() {
+    public PlateauAbalone (int nbBlanc, int nbNoir)
+    {
+        this.nbNoir=nbNoir;
+        this.nbBlanc=nbBlanc;
+        plateau = new Case[62];
+        for (int i = 0; i <= 61; i++) {
+            plateau[i] = new Case(i, 0, null, null, null, null, null, null);
+        }
+        create_board_abalone();
+        initPlateau();
+    }
+
+    public void create_board_abalone() {
         int i;
         //row 1
         for(i=1; i<=5; i++){
@@ -130,4 +151,53 @@ public class PlateauAbalone extends Plateau{
             plateau[i].setH_droite(plateau[i-5]);
         }
     }
+
+
+    public void initPlateau()
+    {
+        for (int i=1; i<= nbNoir+2;i++)
+        {
+            if (i<=11 || i>13 )
+                plateau[i].getPion().setValeur(1);
+        }
+
+        for (int i=62-nbBlanc-2; i< 62; i++)
+        {
+            if ((i>=46 && i<=48) || i>=51)
+                plateau[i].getPion().setValeur(2);
+        }
+    }
+
+    public void affichePlateau()
+    {
+        int nb=4;
+
+        for(int j = 0; j<nb;j++)
+        {
+            System.out.print(" ");
+        }
+
+        for(int i = 1; i < 62;i++)
+        {
+            if (plateau[i].getDroite() == null)
+            {
+                System.out.print(plateau[i].getPion().getValeur()+" ");
+                System.out.println("");
+
+                nb = i<35 ? nb-1 : nb+1;
+
+                for(int j = 0; j<nb;j++)
+                {
+                    System.out.print(" ");
+                }
+            }
+            else
+            {
+                System.out.print(plateau[i].getPion().getValeur()+" ");
+            }
+        }
+    }
+
+
+
 }

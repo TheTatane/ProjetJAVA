@@ -49,7 +49,7 @@ public class Fenetre extends JFrame implements ActionListener {
         if(j.getClass() == DameChinoise.class)
             dameChinoiseUI = new DameChinoiseUI(jeu);
         if(j.getClass() == Abalone.class)
-            abaloneUI = new AbaloneUI(jeu.getPlateau());
+            abaloneUI = new AbaloneUI(jeu);
     }
 
     @Override

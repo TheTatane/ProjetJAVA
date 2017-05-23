@@ -170,7 +170,7 @@ public class PlateauAbalone extends Plateau{
         }
     }
 
-    public void affichePlateau()
+    public void affiche_plateau()
     {
         int nb=4;
 

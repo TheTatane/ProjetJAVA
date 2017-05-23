@@ -1,14 +1,13 @@
 package View;
 
-import MC.Case;
-import MC.DameChinoise;
-import MC.Jeux;
-import MC.Plateau;
+import MC.*;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.RoundRectangle2D;
 
 /**
  * Created by QUENTIN on 02/05/2017.
@@ -16,21 +15,28 @@ import java.awt.event.ActionListener;
 public class DameChinoiseUI extends JPanel implements ActionListener {
 
     JButton tabbutton[] = new JButton[122];
-    Plateau plateau;
+    PlateauDC plateau;
     Jeux dc;
 
+    int idsrc=0, iddest=0;
+
     public DameChinoiseUI(Jeux jeu){
-        this.setBackground(Color.cyan);
+        this.setBackground(Color.darkGray);
         this.setLayout(new GridBagLayout());
-        plateau=jeu.getPlateau();
+        plateau= (PlateauDC) jeu.getPlateau();
         dc=jeu;
         for(int i=1; i<=121; i++){
             tabbutton[i] = new JButton();
-            tabbutton[i].setPreferredSize(new Dimension(20,20));
-            tabbutton[i].setBackground(plateau.getPlateau()[i].getPion().getCouleur());
+            tabbutton[i].setPreferredSize(new Dimension(23,20));
+            tabbutton[i].setBackground(Color.darkGray);
             tabbutton[i].setName(Integer.toString(i));
+            tabbutton[i].setBorder(new RoundedBorder(50));
+            tabbutton[i].setForeground(plateau.getPlateau()[i].getPion().getCouleur());
+
         }
         draw();
+        System.out.println("TOUR COURANT : "+dc.getTourJoueur());
+        System.out.println("COULEUR JOUEUR : "+dc.getJcolor()[0].toString());
     }
 
     public void draw(){
@@ -101,9 +107,66 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton btn = (JButton) e.getSource();
-        int id = Integer.parseInt(btn.getName());
-        btn = tabbutton[id];
-        Case c = plateau.getCase(id);
-        System.out.println(c.toString());
+        if(idsrc==0){
+            idsrc = Integer.parseInt(btn.getName());
+            if(dc.pionAppartientJoueurCourant(plateau.getPlateau()[idsrc].getPion().getCouleur())) {
+                int dispo[] = plateau.deplacements_possibles(plateau.getPlateau()[idsrc]);
+                for (int i = 0; i < 6; i++) {
+                    System.out.print(dispo[i] + "/");
+                }
+                showMouvDispo(dispo);
+            }
+            else{idsrc=0;}
+        }
+        else{
+            hideMouvDispo(plateau.deplacements_possibles(plateau.getPlateau()[idsrc]));
+            iddest = Integer.parseInt(btn.getName());
+            if(plateau.deplacementDisponible(idsrc, iddest)){
+                if(plateau.isSaut(plateau.getCase(idsrc), plateau.getCase(iddest))) {
+                    System.out.println("SAUT");
+                    plateau.changePosition(plateau.getCase(idsrc), plateau.getCase(iddest));
+                    dc.tourSuivant();
+                    swapUI(idsrc, iddest);
+
+                }
+                else{
+                    System.out.println("NORMAL");
+                    plateau.changePosition(plateau.getPlateau()[idsrc], plateau.getPlateau()[iddest]);
+                    swapUI(idsrc, iddest);
+                    dc.tourSuivant();
+                    setVisible(true);
+                }
+            }
+            else
+                System.out.println("Destination non valide");
+            idsrc=0;iddest=0;
+            System.out.println("TOUR COURANT : "+dc.getTourJoueur());
+        }
+    }
+
+    public void swapUI(int idsrc, int iddest){
+        JButton tmp = tabbutton[iddest];
+
+        tabbutton[iddest].setForeground(tabbutton[idsrc].getForeground());
+        tabbutton[idsrc].setForeground(plateau.getCase(idsrc).getPion().getCouleur());
+
+    }
+
+    public void showMouvDispo(int dispo[]){
+        for(int i=0; i<6; i++){
+            if(dispo[i] != 0){
+                tabbutton[dispo[i]].setBorder(new LineBorder(Color.green, 2));
+                tabbutton[dispo[i]].setBackground(plateau.getCase(dispo[i]).getPion().getCouleur());
+            }
+        }
+    }
+
+    public void hideMouvDispo(int dispo[]){
+        for(int i=0; i<6; i++){
+            if(dispo[i] != 0){
+                tabbutton[dispo[i]].setBorder(new RoundedBorder(20));
+                tabbutton[dispo[i]].setBackground(Color.darkGray);
+            }
+        }
     }
 }

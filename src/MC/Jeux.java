@@ -58,4 +58,9 @@ public abstract class Jeux {
     public void setJcolor(ArrayList<Color>[] jcolor) {
         this.jcolor = jcolor;
     }
+
+    /*
+    METHODES POUR SAUVEGARDER AVEC BD ICI
+     */
+
 }

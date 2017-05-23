@@ -29,5 +29,4 @@ public class DameChinoise extends Jeux {
         this.jcolor = new ArrayList[2];
         this.plateau=new PlateauDC(this.jcolor);
     }
-
 }

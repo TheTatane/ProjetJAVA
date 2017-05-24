@@ -18,26 +18,52 @@ public class AbaloneUI extends JPanel implements ActionListener {
 
     JButton tabbutton[] = new JButton[63];
     Plateau plateau;
+    JPanel panelGlobal;
+    JPanel panelJeu;
+    JPanel panelInfoJeu;
+    Font policeTitle;
+    JLabel labelTitle;
     Jeux game;
-
 
     public AbaloneUI(Jeux jeu) {
 
         game = jeu;
-        this.setBackground(new Color(255, 208, 186, 137));
-        this.setLayout(new GridBagLayout());
+        //this.setBackground(new Color(255, 208, 186, 137));
+        //this.setLayout(new GridBagLayout());
+        this.setLayout(new BorderLayout());
+
+        // Police
+        policeTitle = new Font("Arial", Font.BOLD, 20);
+
+        //Label
+        labelTitle = new JLabel("TEST");
+        labelTitle.setFont(policeTitle);
+        labelTitle.setHorizontalAlignment(JLabel.CENTER);
+        labelTitle.setPreferredSize(new Dimension(540,30));
+
+        panelGlobal = new JPanel(new BorderLayout());
+        panelJeu = new JPanel(new GridBagLayout());
+        panelJeu.setBackground(new Color(255, 208, 186, 137));
+        panelInfoJeu = new JPanel(new BorderLayout());
+        panelInfoJeu.setBackground(new Color(255, 208, 186, 137));
 
         plateau = game.getPlateau();
 
 
-        for (int i = 1; i <= 62; i++) {
+        for (int i = 1; i < 62; i++) {
             tabbutton[i] = new JButton();
             tabbutton[i].setPreferredSize(new Dimension(20, 20));
-            //tabbutton[i].setBackground(plateau.getPlateau()[i].getPion().getCouleur());
+            tabbutton[i].setBorder(new RoundedBorder(50));
+            tabbutton[i].setBackground(Color.darkGray);
+            tabbutton[i].setForeground(plateau.getPlateau()[i].getPion().getCouleur());
             tabbutton[i].setName(Integer.toString(i));
         }
 
         affichePlateau();
+        panelInfoJeu.add(labelTitle);
+        panelGlobal.add(panelJeu, BorderLayout.CENTER);
+        panelGlobal.add(panelInfoJeu, BorderLayout.EAST);
+        this.add(panelGlobal, BorderLayout.CENTER);
     }
 
         public void affichePlateau()
@@ -45,7 +71,7 @@ public class AbaloneUI extends JPanel implements ActionListener {
             GridBagConstraints constraint = new GridBagConstraints();
             constraint.gridx=5;constraint.gridy=4;
             constraint.gridheight=1; constraint.gridwidth=1;
-            constraint.ipadx=2; constraint.ipady=2;
+            constraint.ipadx=8; constraint.ipady=8;
 
             int taille=4, ligne=0;
             for(int i=1; i< 62 ; i++)
@@ -56,7 +82,7 @@ public class AbaloneUI extends JPanel implements ActionListener {
                 if(plateau.getPlateau()[i].getDroite() == null)
                 {
                     tabbutton[i].addActionListener(this);
-                    this.add(tabbutton[i], constraint);
+                    panelJeu.add(tabbutton[i], constraint);
 
                     if (i<34 )
                     {
@@ -74,7 +100,7 @@ public class AbaloneUI extends JPanel implements ActionListener {
                 else
                 {
                     tabbutton[i].addActionListener(this);
-                    this.add(tabbutton[i], constraint);
+                    panelJeu.add(tabbutton[i], constraint);
                     constraint.gridx += 2;
                 }
             }

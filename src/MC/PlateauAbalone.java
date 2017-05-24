@@ -157,16 +157,27 @@ public class PlateauAbalone extends Plateau{
 
     public void initPlateau()
     {
+        for (int i=1;i<PION_MAX;i++)
+        {
+            plateau[i].getPion().setCouleur(Color.gray);
+        }
+
         for (int i=1; i<= nbNoir+decalage;i++)
         {
             if (i<=11 || i>13 )
+            {
                 plateau[i].getPion().setValeur(1);
+                plateau[i].getPion().setCouleur(Color.black);
+            }
         }
 
         for (int i=PION_MAX-nbBlanc-decalage; i< PION_MAX; i++)
         {
             if ((i>=46 && i<=48) || i>=51)
+            {
                 plateau[i].getPion().setValeur(2);
+                plateau[i].getPion().setCouleur(Color.white);
+            }
         }
     }
 

@@ -1,6 +1,11 @@
 import MC.*;
 import View.Fenetre;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class Main {
     public static void main (String[] args){
 
@@ -10,14 +15,16 @@ public class Main {
         Abalone AB = new Abalone();
 
         ////// DM
-        DameChinoise dm = new DameChinoise(2);
+        DameChinoise dm = new DameChinoise(2, 1, "PRISE");
         dm.addJoueur("Quentin");
-        dm.addJoueur("Sean");
+        dm.addJoueur("Stephane");
         dm.setTourJoueur(dm.getJoueur().get(0)); //set le tour en cours sur le premier joueur renseigné
+
 
         /////// AJOUT JEUX SUR FENETRE
         f.setJeu(dm);
         f.setJeu(AB);
+
 
         // TESTS //
         /*
@@ -26,5 +33,6 @@ public class Main {
         System.out.println();
         AB.getPlateau().affichePlateau();
         */
+
     }
 }

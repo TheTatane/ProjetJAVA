@@ -39,7 +39,7 @@ public class AbaloneUI extends JPanel implements ActionListener {
         labelTitle = new JLabel("TEST");
         labelTitle.setFont(policeTitle);
         labelTitle.setHorizontalAlignment(JLabel.CENTER);
-        labelTitle.setPreferredSize(new Dimension(540,30));
+        labelTitle.setPreferredSize(new Dimension(300,30));
 
         panelGlobal = new JPanel(new BorderLayout());
         panelJeu = new JPanel(new GridBagLayout());

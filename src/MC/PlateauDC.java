@@ -10,16 +10,26 @@ import static javafx.scene.paint.Color.VIOLET;
  */
 public class PlateauDC extends Plateau {
 
-    ArrayList<Color> joueurColor[];
 
-    public PlateauDC(ArrayList<Color> jc[]){
+
+    public PlateauDC(ArrayList<Color> jc[], int nbColor, int nbJoueur, String mode){
+        super(jc, mode);
         plateau = new Case[122];
         for (int i = 0; i <= 121; i++) {
             plateau[i] = new Case(i, 0, null, null, null, null, null, null);
         }
-        joueurColor=jc;
         createBoard();
-        setPion2joueur(2);
+        switch (nbJoueur){
+            case 2:
+                setPion2joueur(nbColor);break;
+            case 3:
+                setPion3joueur(nbColor);break;
+            case 4:
+                setPion4joueur();break;
+            default:
+                //erreur
+                break;
+        }
     }
 
     public void createBoard() {
@@ -445,11 +455,29 @@ public class PlateauDC extends Plateau {
         }
     }
 
-    public void changePosition(Case orig, Case dest){
+    public boolean changePosition(Case orig, Case dest){
+        boolean playAgain=false;
+        if(modeJeu=="PRISE"){
+            if(isSaut(orig, dest)){
+                int idJumped = getIdPionSaute(orig, dest);
+                Color origColor = orig.getPion().getCouleur();
+                Color jumpedColor = plateau[idJumped].getPion().getCouleur();
+                if(origColor != jumpedColor){
+                    plateau[idJumped].getPion().setCouleur(null);
+                    plateau[idJumped].setEtat(0);
+                    if(sautPossible(orig,dest))
+                        playAgain=true;
+                    else
+                        playAgain=false;
+
+                }
+            }
+        }
         orig.setEtat(0);
         dest.getPion().setCouleur(orig.getPion().getCouleur());
         dest.setEtat(1);
         orig.getPion().setCouleur(null);
+        return playAgain;
     }
 
     public int[] sauts_disponibles(Case c){
@@ -595,41 +623,36 @@ public class PlateauDC extends Plateau {
 
     public boolean isSaut(Case src, Case dest){
         int sautDispo[] = sauts_disponibles(src);
-            for (int i=0 ; i<6; i++){
-                if ((sautDispo)[i] == dest.getId()){
-                    return true;
-                }
+        for (int i=0 ; i<6; i++){
+            if ((sautDispo)[i] == dest.getId()){
+                return true;
             }
-            return false;
+        }
+        return false;
     }
 
-    public boolean isSautLegitime(ArrayList<Color> jcolor, Case src, Case dest){
-        System.out.print("SRC="+src.getId()+" / DEST="+dest.getId());
-        jcolor.toString();
+    public int getIdPionSaute( Case src, Case dest){
         if(isSaut(src, dest)){
             if(dest.getId() < src.getId()) {
 
                 if(src.getGauche() != null) {
                     if (src.getGauche().getGauche() != null) {
                         if (src.getGauche().getGauche().equals(dest)) {
-                            if (jcolor.contains(src.getGauche().getPion().getCouleur()))
-                                return false;
+                            return src.getGauche().getId();
                         }
                     }
                 }
                 if(src.getH_gauche() != null) {
                     if (src.getH_gauche().getH_gauche() != null) {
                         if (src.getH_gauche().getH_gauche().equals(dest)) {
-                            if (jcolor.contains(src.getH_gauche().getPion().getCouleur()))
-                                return false;
+                            return src.getH_gauche().getId();
                         }
                     }
                 }
                 if(src.getH_droite() != null) {
                     if (src.getH_droite().getH_droite() != null) {
                         if (src.getH_droite().getH_droite().equals(dest)) {
-                            if (jcolor.contains(src.getH_droite().getPion().getCouleur()))
-                                return false;
+                            return src.getH_droite().getId();
                         }
                     }
                 }
@@ -639,36 +662,43 @@ public class PlateauDC extends Plateau {
                 if(src.getDroite() != null) {
                     if (src.getDroite().getDroite() != null) {
                         if (src.getDroite().getDroite().equals(dest)) {
-                            if (jcolor.contains(src.getDroite().getPion().getCouleur()))
-                                return false;
+                            return src.getDroite().getId();
                         }
                     }
                 }
                 if(src.getB_gauche() != null) {
                     if (src.getB_gauche().getB_gauche() != null) {
                         if (src.getB_gauche().getB_gauche().equals(dest)) {
-                            if (jcolor.contains(src.getB_gauche().getPion().getCouleur()))
-                                return false;
+                            return src.getB_gauche().getId();
                         }
                     }
                 }
                 if(src.getB_droite() != null) {
                     if (src.getB_droite().getB_droite() != null) {
                         if (src.getB_droite().getB_droite().equals(dest)) {
-                            if (jcolor.contains(src.getB_droite().getPion().getCouleur()))
-                                return false;
+                            return src.getB_droite().getId();
                         }
                     }
                 }
             }
         }
-        return true;
+        return 0;
     }
 
     public boolean deplacementDisponible(int src, int dest){
         int dispo[] = deplacements_possibles(plateau[src]);
         for(int i=0; i<6; i++){
             if(dispo[i] == dest){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean sautPossible(Case orig, Case src){
+        int sautDispo[] = sauts_disponibles(src);
+        for (int i=0 ; i<6; i++){
+            if ((sautDispo)[i] > 0){
                 return true;
             }
         }
@@ -683,7 +713,6 @@ public class PlateauDC extends Plateau {
             afficher_voisins_console(plateau[i]);
         }
     }
-
 
     public void afficher_voisins_console(Case c) {
         if (c.getDroite() != null) {
@@ -706,5 +735,7 @@ public class PlateauDC extends Plateau {
         }
         System.out.println("\n");
     }
+
+
 
 }

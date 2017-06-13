@@ -106,6 +106,10 @@ public class Case {
         return id;
     }
 
+    public void enleverPion(){
+        this.pion=new Pion();
+    }
+
     @Override
     public String toString() {
         return "Case{" +

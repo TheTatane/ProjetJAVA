@@ -32,22 +32,27 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
         this.setLayout(new BorderLayout());
 
         panGame.setLayout(new GridBagLayout());
-        panGame.setBackground(Color.darkGray);
+        panGame.setBackground(Color.decode("#616161"));
 
         htmlTitle=setTitleName();
         panTitle.add(htmlTitle);
-        panTitle.setBackground(Color.LIGHT_GRAY);
+        panTitle.setBackground(Color.decode("#424242"));
 
         btnBackMenu=new JButton("Quitter");
+        btnBackMenu.setBackground(Color.decode("#616161"));
+        btnBackMenu.setForeground(Color.white);
         btnPasserTour=new JButton("Passer");btnPasserTour.setName("pass");
         btnPasserTour.addActionListener(this);
+        btnPasserTour.setBackground(Color.decode("#616161"));
+        btnPasserTour.setForeground(Color.white);
+
+        panOption.setBackground(Color.decode("#9E9E9E"));
         panOption.add(btnPasserTour);
         panOption.add(btnBackMenu);
-        panOption.setBackground(Color.darkGray);
         for(int i=1; i<=121; i++){
             tabbutton[i] = new JButton();
             tabbutton[i].setPreferredSize(new Dimension(23,20));
-            tabbutton[i].setBackground(Color.darkGray);
+            tabbutton[i].setBackground(Color.decode("#616161"));
             tabbutton[i].setName(Integer.toString(i));
             tabbutton[i].setBorder(new RoundedBorder(50));
             tabbutton[i].setForeground(plateau.getPlateau()[i].getPion().getCouleur());
@@ -151,7 +156,7 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
         for(int i=0; i<6; i++){
             if(dispo[i] != 0){
                 tabbutton[dispo[i]].setBorder(new RoundedBorder(20));
-                tabbutton[dispo[i]].setBackground(Color.darkGray);
+                tabbutton[dispo[i]].setBackground(Color.decode("#616161"));
             }
         }
     }
@@ -183,7 +188,7 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
         int i=0;String html="<html> <div display='inline' align='center'>";
         for(String nom : listJoueur){
             if(dc.getTourJoueur().equals(nom))
-                html += "<font size='5' color='green'>"+nom+" : </font>";
+                html += "<font size='5' color='green'> =>"+nom+" : </font>";
             else
                 html += "<font size='5' color='black'>"+nom+" : </font>";
             for (Color c : dc.getJcolor()[i]){
@@ -252,11 +257,7 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
         }
         updatePanTitle();
         if(dc.checkVictoire()>-1){
-            JOptionPane d = new JOptionPane();
-            d.showMessageDialog( this, "Victoire pour "+dc.getVictoriousName()+" !!",
-                    "Victoire", JOptionPane.PLAIN_MESSAGE);
-            dc.getVictoriousName();
-            // SAUVEGARDER ICI DANS BD
+            showVictoire();
         }
     }
 
@@ -265,5 +266,13 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
             dc.tourSuivant();
             updatePanTitle();
         }
+    }
+
+    public void showVictoire(){
+        JOptionPane d = new JOptionPane();
+        d.showMessageDialog( this, "Victoire pour "+dc.getVictoriousName()+" !!",
+                "Victoire", JOptionPane.PLAIN_MESSAGE);
+        dc.getVictoriousName();
+        // SAUVEGARDER ICI DANS BD
     }
 }

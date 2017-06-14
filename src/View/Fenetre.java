@@ -44,6 +44,14 @@ public class Fenetre extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    public Fenetre(){
+        menu.bSuivant.addActionListener(this);
+        menu.menuAbalone.btn.addActionListener(this);
+        menu.bJouer.addActionListener(this);
+        setContentPane(menu);
+        setVisible(true);
+    }
+
     public void setJeu(Jeux j){
         jeu=j;
         if(j.getClass() == DameChinoise.class)
@@ -69,6 +77,12 @@ public class Fenetre extends JFrame implements ActionListener {
             }
             else if(menu.menuDameChinoise.isVisible()){
                 setContentPane(dameChinoiseUI);
+                dameChinoiseUI.btnBackMenu.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setContentPane(menu);
+                    }
+                });
             }
             setVisible(true);
         }

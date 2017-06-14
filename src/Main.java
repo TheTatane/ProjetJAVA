@@ -18,6 +18,7 @@ public class Main {
         DameChinoise dm = new DameChinoise(2, 1, "PRISE");
         dm.addJoueur("Quentin");
         dm.addJoueur("Stephane");
+        //dm.addJoueur("Louison");
         dm.setTourJoueur(dm.getJoueur().get(0)); //set le tour en cours sur le premier joueur renseigné
 
 

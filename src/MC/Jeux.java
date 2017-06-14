@@ -97,6 +97,13 @@ public abstract class Jeux {
         return false;
     }
 
+    public abstract int checkVictoire();
+
+    public abstract String getVictoriousName();
+
+    public abstract String getJoueurFromColor(Color color);
+
+
     /*
     METHODES POUR SAUVEGARDER AVEC BD ICI
      */

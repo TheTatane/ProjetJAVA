@@ -1,5 +1,6 @@
 package MC;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -22,6 +23,21 @@ public class Abalone extends Jeux {
     @Override
     public void tourSuivant() {
 
+    }
+
+    @Override
+    public int checkVictoire() {
+        return 0;
+    }
+
+    @Override
+    public String getVictoriousName() {
+        return null;
+    }
+
+    @Override
+    public String getJoueurFromColor(Color color) {
+        return null;
     }
 
 

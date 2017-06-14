@@ -16,6 +16,8 @@ import java.util.ArrayList;
 public class DameChinoiseUI extends JPanel implements ActionListener {
 
     JPanel panGame=new JPanel(), panTitle=new JPanel(), panOption=new JPanel();
+    JButton btnPasserTour, btnBackMenu;
+    JLabel htmlTitle;
     JButton tabbutton[] = new JButton[122];
     PlateauDC plateau;
     Jeux dc;
@@ -30,13 +32,27 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
         this.setLayout(new BorderLayout());
 
         panGame.setLayout(new GridBagLayout());
-        panGame.setBackground(Color.darkGray);
+        panGame.setBackground(Color.decode("#616161"));
 
-        panTitle.add(setTitleName());
+        htmlTitle=setTitleName();
+        panTitle.add(htmlTitle);
+        panTitle.setBackground(Color.decode("#424242"));
+
+        btnBackMenu=new JButton("Quitter");
+        btnBackMenu.setBackground(Color.decode("#616161"));
+        btnBackMenu.setForeground(Color.white);
+        btnPasserTour=new JButton("Passer");btnPasserTour.setName("pass");
+        btnPasserTour.addActionListener(this);
+        btnPasserTour.setBackground(Color.decode("#616161"));
+        btnPasserTour.setForeground(Color.white);
+
+        panOption.setBackground(Color.decode("#9E9E9E"));
+        panOption.add(btnPasserTour);
+        panOption.add(btnBackMenu);
         for(int i=1; i<=121; i++){
             tabbutton[i] = new JButton();
             tabbutton[i].setPreferredSize(new Dimension(23,20));
-            tabbutton[i].setBackground(Color.darkGray);
+            tabbutton[i].setBackground(Color.decode("#616161"));
             tabbutton[i].setName(Integer.toString(i));
             tabbutton[i].setBorder(new RoundedBorder(50));
             tabbutton[i].setForeground(plateau.getPlateau()[i].getPion().getCouleur());
@@ -115,42 +131,11 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton btn = (JButton) e.getSource();
-        if(idsrc==0){
-            idsrc = Integer.parseInt(btn.getName());
-            if(dc.pionAppartientJoueurCourant(plateau.getPlateau()[idsrc].getPion().getCouleur())) {
-                int dispo[] = plateau.deplacements_possibles(plateau.getPlateau()[idsrc]);
-                for (int i = 0; i < 6; i++) {
-                    System.out.print(dispo[i] + "/");
-                }
-                showMouvDispo(dispo);
-            }
-            else{idsrc=0;}
-        }
-        else{
-            hideMouvDispo(plateau.deplacements_possibles(plateau.getPlateau()[idsrc]));
-            iddest = Integer.parseInt(btn.getName());
-            if(plateau.deplacementDisponible(idsrc, iddest)){
-                if(plateau.isSaut(plateau.getCase(idsrc), plateau.getCase(iddest))) {
-                    System.out.println("SAUT");
-                    if(!plateau.changePosition(plateau.getCase(idsrc), plateau.getCase(iddest)))
-                        dc.tourSuivant();
-                    swapUI(idsrc, iddest);
-                    refreshNeighbors(idsrc);
+        if(btn.getName().equals("quit") || btn.getName().equals("pass"))
+            optionHandler(btn);
+        else
+            boardHandler(btn);
 
-                }
-                else{
-                    System.out.println("NORMAL");
-                    plateau.changePosition(plateau.getPlateau()[idsrc], plateau.getPlateau()[iddest]);
-                    swapUI(idsrc, iddest);
-                    dc.tourSuivant();
-                    setVisible(true);
-                }
-            }
-            else
-                System.out.println("Destination non valide");
-            idsrc=0;iddest=0;
-            System.out.println("TOUR COURANT : "+dc.getTourJoueur());
-        }
     }
 
     public void swapUI(int idsrc, int iddest){
@@ -171,7 +156,7 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
         for(int i=0; i<6; i++){
             if(dispo[i] != 0){
                 tabbutton[dispo[i]].setBorder(new RoundedBorder(20));
-                tabbutton[dispo[i]].setBackground(Color.darkGray);
+                tabbutton[dispo[i]].setBackground(Color.decode("#616161"));
             }
         }
     }
@@ -202,7 +187,10 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
         ArrayList<String> listJoueur = dc.getJoueur();
         int i=0;String html="<html> <div display='inline' align='center'>";
         for(String nom : listJoueur){
-            html += "<font size='5'>"+nom+" : </font>";
+            if(dc.getTourJoueur().equals(nom))
+                html += "<font size='5' color='green'> =>"+nom+" : </font>";
+            else
+                html += "<font size='5' color='black'>"+nom+" : </font>";
             for (Color c : dc.getJcolor()[i]){
                 if(c.equals(Color.black))
                     html += "<font color='black' size='3'> noir </font>";
@@ -224,5 +212,67 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
         JLabel label = new JLabel(html);
         label.setPreferredSize(new Dimension(500, 50));
         return label;
+    }
+
+    public void updatePanTitle(){
+        htmlTitle.setText(setTitleName().getText());
+    }
+
+    public void boardHandler(JButton source){
+        if(idsrc==0){
+            idsrc = Integer.parseInt(source.getName());
+            if(dc.pionAppartientJoueurCourant(plateau.getPlateau()[idsrc].getPion().getCouleur())) {
+                int dispo[] = plateau.deplacements_possibles(plateau.getPlateau()[idsrc]);
+                for (int i = 0; i < 6; i++) {
+                    System.out.print(dispo[i] + "/");
+                }
+                showMouvDispo(dispo);
+            }
+            else{idsrc=0;}
+        }
+        else{
+            hideMouvDispo(plateau.deplacements_possibles(plateau.getPlateau()[idsrc]));
+            iddest = Integer.parseInt(source.getName());
+            if(plateau.deplacementDisponible(idsrc, iddest)){
+                if(plateau.isSaut(plateau.getCase(idsrc), plateau.getCase(iddest))) {
+                    System.out.println("SAUT");
+                    if(!plateau.changePosition(plateau.getCase(idsrc), plateau.getCase(iddest)))
+                        dc.tourSuivant();
+                    swapUI(idsrc, iddest);
+                    refreshNeighbors(idsrc);
+
+                }
+                else{
+                    System.out.println("NORMAL");
+                    plateau.changePosition(plateau.getPlateau()[idsrc], plateau.getPlateau()[iddest]);
+                    swapUI(idsrc, iddest);
+                    dc.tourSuivant();
+                    setVisible(true);
+                }
+            }
+            else
+                System.out.println("Destination non valide");
+            idsrc=0;iddest=0;
+            System.out.println("TOUR COURANT : "+dc.getTourJoueur());
+        }
+        updatePanTitle();
+        if(dc.checkVictoire()>-1){
+            showVictoire();
+        }
+    }
+
+    public void optionHandler(JButton source){
+        if(source.equals(btnPasserTour)){
+            dc.tourSuivant();
+            updatePanTitle();
+        }
+    }
+
+    public void showVictoire(){
+        JOptionPane d = new JOptionPane();
+        d.showMessageDialog( this, "Victoire pour "+dc.getVictoriousName()+" !!",
+                "Victoire", JOptionPane.PLAIN_MESSAGE);
+        dc.getVictoriousName();
+        // SAUVEGARDER ICI DANS BD
     }
 }

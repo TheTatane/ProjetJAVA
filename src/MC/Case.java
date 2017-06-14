@@ -7,7 +7,7 @@ public class Case {
 
     private int id;     //numero case
     private boolean checked;    //attribut pour parcours recursif
-    private int etat;   //vide, pas vide, interdit
+    private int etat;   //vide (0) , pas vide (1), interdit (-1)
 
     // cases voisines
     private Case droite;

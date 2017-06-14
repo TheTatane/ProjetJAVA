@@ -25,6 +25,7 @@ public class PlateauAbalone extends Plateau{
         }
         create_board_abalone();
         initPlateau();
+        //initPlateau_TEST();
     }
 
     public PlateauAbalone (int nbBlanc, int nbNoir)
@@ -37,6 +38,7 @@ public class PlateauAbalone extends Plateau{
         }
         create_board_abalone();
         initPlateau();
+        //initPlateau_TEST();
     }
 
     public void create_board_abalone() {
@@ -94,12 +96,12 @@ public class PlateauAbalone extends Plateau{
         for(i=27; i<=35; i++){
             if(i != 27) {
                 plateau[i].setGauche(plateau[i - 1]);
-                plateau[i].setH_gauche(plateau[i-6]);
+                plateau[i].setH_gauche(plateau[i-9]);
                 plateau[i].setB_gauche(plateau[i+5]);
             }
             if(i != 35) {
                 plateau[i].setDroite(plateau[i + 1]);
-                plateau[i].setH_droite(plateau[i-5]);
+                plateau[i].setH_droite(plateau[i-8]);
                 plateau[i].setB_droite(plateau[i+6]);
             }
         }
@@ -160,6 +162,7 @@ public class PlateauAbalone extends Plateau{
         for (int i=1;i<PION_MAX;i++)
         {
             plateau[i].getPion().setCouleur(Color.gray);
+            plateau[i].setEtat(0);
         }
 
         for (int i=1; i<= nbNoir+decalage;i++)
@@ -167,6 +170,7 @@ public class PlateauAbalone extends Plateau{
             if (i<=11 || i>13 )
             {
                 plateau[i].getPion().setValeur(1);
+                plateau[i].setEtat(1);
                 plateau[i].getPion().setCouleur(Color.black);
             }
         }
@@ -176,6 +180,53 @@ public class PlateauAbalone extends Plateau{
             if ((i>=46 && i<=48) || i>=51)
             {
                 plateau[i].getPion().setValeur(2);
+                plateau[i].setEtat(1);
+                plateau[i].getPion().setCouleur(Color.white);
+            }
+        }
+    }
+
+
+    public void initPlateau_TEST()
+    {
+        for (int i=1;i<PION_MAX;i++)
+        {
+            plateau[i].getPion().setCouleur(Color.gray);
+        }
+
+        for (int i=1; i<= nbNoir+decalage;i++)
+        {
+            if (i<=11 || i>13 )
+            {
+                plateau[i].getPion().setValeur(1);
+                plateau[i].setEtat(1);
+                plateau[i].getPion().setCouleur(Color.black);
+            }
+        }
+
+        plateau[2].getPion().setValeur(0);
+        plateau[2].setEtat(0);
+        plateau[2].getPion().setCouleur(Color.gray);
+
+        plateau[32].getPion().setValeur(2);
+        plateau[32].setEtat(1);
+        plateau[32].getPion().setCouleur(Color.white);
+
+        plateau[41].getPion().setValeur(2);
+        plateau[41].setEtat(1);
+        plateau[41].getPion().setCouleur(Color.white);
+
+        plateau[23].getPion().setValeur(2);
+        plateau[23].setEtat(1);
+        plateau[23].getPion().setCouleur(Color.white);
+
+
+        for (int i=PION_MAX-nbBlanc-decalage; i< PION_MAX; i++)
+        {
+            if ((i>=46 && i<=48) || i>=51)
+            {
+                plateau[i].getPion().setValeur(2);
+                plateau[i].setEtat(1);
                 plateau[i].getPion().setCouleur(Color.white);
             }
         }

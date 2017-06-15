@@ -32,47 +32,20 @@ public class DameChinoise extends Jeux {
         this.plateau=new PlateauDC(this.jcolor, 1, 2, this.modeJeu);
     }
 
+    public PlateauDC getPlateau() {
+        return (PlateauDC)plateau;
+    }
+
     public void tourSuivant(){
         int indexOfSuivant = (this.joueur.indexOf(this.tourJoueur))+1;
         if(indexOfSuivant==this.joueur.size())
             indexOfSuivant=0;
         this.tourJoueur = this.joueur.get(indexOfSuivant);
+        if(this.joueur.equals("IA") && modeJeu == "IA") {
+            ia();
+            tourSuivant();
+        }
     }
-/*
-    @Override
-    public int checkVictoire() {
-        if(victoire_br1(plateau.getCase(1))){
-            System.out.println("v1");
-            return 1;
-        }
-
-        if(victoire_br2(plateau.getCase(11))){
-            System.out.println("v2");
-            return 2;
-        }
-
-        if(victoire_br3(plateau.getCase(99))){
-            System.out.println("v3");
-            return 3;
-        }
-
-        if(victoire_br4(plateau.getCase(121))){
-            System.out.println("v4");
-            return 4;
-        }
-
-        if(victoire_br5(plateau.getCase(111))){
-            System.out.println("v5");
-            return 5;
-        }
-
-        if(victoire_br6(plateau.getCase(23))){
-            System.out.println("v6");
-            return 6;
-        }
-        return 0;
-    }
-*/
 
     @Override
     public int checkVictoire() {
@@ -231,6 +204,175 @@ public class DameChinoise extends Jeux {
             }
         }
         return null;
+    }
+
+    public void resetJeu(int nbJoueur, int nbColor, String mode) {
+        this.modeJeu=mode;
+        this.score=new int[nbJoueur];
+        this.joueur=new ArrayList<String>();
+        this.jcolor = new ArrayList[nbJoueur];
+        this.nbColorByPlayer=nbColor;
+        for(int i=0; i<nbJoueur; i++){
+            this.jcolor[i]=new ArrayList<Color>();
+        }
+        this.plateau=new PlateauDC(this.jcolor, nbColorByPlayer, nbJoueur, this.modeJeu);
+    }
+
+    public void ia(){
+        System.out.println("_________________ IA \n");
+        //IA est le J2
+        for(Color color : jcolor[1]){
+            if(tryPlay(color))
+                break;
+        }
+    }
+
+    public boolean tryPlay(Color color){
+        if(color.equals(Color.blue)){
+            return playBlue(plateau.getCase(121));
+        }
+        if(color.equals(Color.pink)){
+            return playPink(plateau.getCase(99));
+        }
+        if(color.equals(Color.black)){
+            return playBlack(plateau.getCase(111));
+        }
+        return false;
+    }
+
+    // TO-DO
+    // RENAME METHOD --> MARK PAWN
+    public boolean playBlue(Case c){
+        if(c.getPion().getCouleur() == Color.blue){
+            mark(c);
+        }
+        if(c.getH_droite() != null && c.getH_gauche() != null && plateau.getCase(c.getId()).isChecked() == false) {
+            plateau.getCase(c.getId()).setChecked(true);
+            return playBlue(plateau.getCase(c.getH_gauche().getId())) || playBlue(plateau.getCase(c.getH_droite().getId()));
+        }
+        else if(c.getH_droite() == null && c.getH_gauche() != null && plateau.getCase(c.getId()).isChecked() == false) {
+            plateau.getCase(c.getId()).setChecked(true);
+            return playBlue(plateau.getCase(c.getH_gauche().getId()));
+        }
+        else if(c.getH_droite() != null && c.getH_gauche() == null && plateau.getCase(c.getId()).isChecked() == false) {
+            plateau.getCase(c.getId()).setChecked(true);
+            return playBlue(plateau.getCase(c.getH_droite().getId()));
+        }
+        else{
+            plateau.getCase(c.getId()).setChecked(true);
+        }
+        return false;
+    }
+
+    public boolean playPink(Case c){
+        if(c.getPion().getCouleur() == Color.pink){
+            mark(c);
+        }
+        if(c.getH_droite() != null && c.getDroite() != null && plateau.getCase(c.getId()).isChecked() == false) {
+            plateau.getCase(c.getId()).setChecked(true);
+            return playPink(plateau.getCase(c.getDroite().getId())) || playPink(plateau.getCase(c.getH_droite().getId()));
+        }
+        else if(c.getH_droite() == null && c.getDroite() != null && plateau.getCase(c.getId()).isChecked() == false) {
+            plateau.getCase(c.getId()).setChecked(true);
+            return playPink(plateau.getCase(c.getDroite().getId()));
+        }
+        else if(c.getH_droite() != null && c.getDroite() == null && plateau.getCase(c.getId()).isChecked() == false) {
+            plateau.getCase(c.getId()).setChecked(true);
+            return playPink(plateau.getCase(c.getH_droite().getId()));
+        }
+        else{
+            plateau.getCase(c.getId()).setChecked(true);
+        }
+        return false; //je met un return pour supprimer les warning lors de la compilation
+    }
+
+    public boolean playBlack(Case c){
+        if(c.getPion().getCouleur() == Color.black){
+            mark(c);
+        }
+        if(c.getH_gauche() != null && c.getGauche() != null && plateau.getCase(c.getId()).isChecked() == false) {
+            plateau.getCase(c.getId()).setChecked(true);
+            return playBlack(plateau.getCase(c.getGauche().getId())) || playBlack(plateau.getCase(c.getH_gauche().getId()));
+        }
+        else if(c.getH_gauche() == null && c.getGauche() != null && plateau.getCase(c.getId()).isChecked() == false) {
+            plateau.getCase(c.getId()).setChecked(true);
+            return playBlack(plateau.getCase(c.getGauche().getId()));
+        }
+        else if(c.getH_gauche() != null && c.getGauche() == null && plateau.getCase(c.getId()).isChecked() == false) {
+            plateau.getCase(c.getId()).setChecked(true);
+            return playBlack(plateau.getCase(c.getH_gauche().getId()));
+        }
+        else{
+            plateau.getCase(c.getId()).setChecked(true);
+        }
+        return false; //je met un return pour supprimer les warning lors de la compilation
+    }
+
+    public void mark(Case c){
+        Case tmp=c;
+        int distanceBranche=0;
+        if(c.getPion().getCouleur() == Color.blue){
+            // (30)
+            if(c.getId() <= 46){
+                if(this.getPlateau().isSautPossible(c)) {
+                    int[] saut = this.getPlateau().sauts_disponibles(c);
+                    for (int i = 0; i < 6; i++) {
+                        if ((saut)[i] < c.getId() - 2 && saut[i] != 0) {
+                            c.setMark(30);
+                        }
+
+                    }
+                }
+                else if(this.getPlateau().isDeplacementPossible(c)){
+                    int[] deplacements = this.getPlateau().deplacements_possibles(c);
+                    for (int i = 0; i < 6; i++) {
+                        if ((deplacements)[i] <= c.getId()+2 && deplacements[i] != 0) {
+                            c.setMark(20);
+                        }
+                    }
+                }
+            }
+            // (20)
+            else if(c.getId() < 86 && c.getId() >= 47){
+
+            }
+
+            else if(this.getPlateau().isDeplacementPossible(c)){
+                c.setMark(10);
+            }
+            else{
+                c.setMark(0);
+            }
+
+
+        }
+        if(c.getPion().getCouleur() == Color.black){
+        }
+        if(c.getPion().getCouleur() == Color.pink){
+            // (30)
+            while(  tmp.getH_droite().getId() != 1 ||
+                    tmp.getH_droite().getId() != 1 ||
+                    tmp.getH_droite().getId() != 1 ||
+                    tmp.getH_droite().getId() != 1)
+                distanceBranche++;
+            if(distanceBranche < 5){
+                //30
+            }
+            else if(distanceBranche < 7){
+                //20
+            }
+            else if(distanceBranche >= 7){
+                //10
+            }
+            else{
+                //0
+            }
+        }
+    }
+
+    public void resetMark(){
+        for(int i=1; i<=121; i++)
+            plateau.getCase(i).setMark(0);
     }
 
 

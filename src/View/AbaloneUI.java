@@ -1,9 +1,6 @@
 package View;
 
-import MC.Case;
-import MC.Jeux;
-import MC.Plateau;
-import MC.PlateauAbalone;
+import MC.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +16,7 @@ public class AbaloneUI extends JPanel implements ActionListener {
 
     ArrayList<Integer> listeSymboleHex = new ArrayList<Integer>();
     Plateau plateau;
-    Jeux game;
+    Abalone game;
 
     //Buttons
     JButton tabbutton[] = new JButton[63];
@@ -46,7 +43,7 @@ public class AbaloneUI extends JPanel implements ActionListener {
 
 
 
-    public AbaloneUI(Jeux jeu) {
+    public AbaloneUI(Abalone jeu) {
 
         game = jeu;
         //this.setBackground(new Color(255, 208, 186, 137));

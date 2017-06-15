@@ -24,7 +24,7 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
 
     int idsrc=0, iddest=0;
 
-    public DameChinoiseUI(Jeux jeu){
+    public DameChinoiseUI(DameChinoise jeu){
         plateau= (PlateauDC) jeu.getPlateau();
         dc=jeu;
 
@@ -269,10 +269,20 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
     }
 
     public void showVictoire(){
+        String victoriousName = dc.getVictoriousName();
         JOptionPane d = new JOptionPane();
-        d.showMessageDialog( this, "Victoire pour "+dc.getVictoriousName()+" !!",
+        d.showMessageDialog( this, "Victoire pour "+victoriousName+" !!",
                 "Victoire", JOptionPane.PLAIN_MESSAGE);
-        dc.getVictoriousName();
-        // SAUVEGARDER ICI DANS BD
+
+        // sauvegarde partie BD
+        BaseDeDonees.connect();
+        BaseDeDonees.updateWin(victoriousName);
+        for(String joueurLoose : dc.getJoueur()){
+            if(joueurLoose != victoriousName) {
+                BaseDeDonees.updateLoose(joueurLoose);
+                //insert dans partie
+            }
+        }
+        btnBackMenu.doClick();
     }
 }

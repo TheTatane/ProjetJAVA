@@ -40,6 +40,9 @@ public class Abalone extends Jeux {
         return null;
     }
 
+    public PlateauAbalone getPlateau() {
+        return (PlateauAbalone) plateau;
+    }
 
 
     /*

@@ -5,13 +5,13 @@ import java.sql.*;
 /**
  * Created by steph on 15/06/2017.
  */
-public class BasedeDonee {
-    private Connection connection=null;
+public abstract class BaseDeDonees {
+    private static Connection connection=null;
 
-    public BasedeDonee(){
+    public BaseDeDonees(){
     }
 
-    public void connect(){
+    public static void connect(){
         try {
             String url = "jdbc:mysql://www.budbud.ovh:3306/iatic3";
             Class.forName ("com.mysql.jdbc.Driver");
@@ -20,7 +20,7 @@ public class BasedeDonee {
             e.printStackTrace();
         }
     }
-    public void Add_player(String pseudo) throws SQLException {
+    public static void Add_player(String pseudo) throws SQLException {
         connect();
         try{
             Statement stmt = connection.createStatement();
@@ -31,7 +31,7 @@ public class BasedeDonee {
         }
         connection.close();
     }
-    public boolean playerexist(String name) throws SQLException {
+    public static boolean playerexist(String name) throws SQLException {
         connect();
         try{
             Statement stmt =connection.createStatement();
@@ -48,7 +48,7 @@ public class BasedeDonee {
         return false;
     }
 
-    public void updateWin(String name){
+    public static void updateWin(String name){
         connect();
         try{
             int nb=0;
@@ -67,7 +67,7 @@ public class BasedeDonee {
         }
     }
 
-    public void updateLoose(String name){
+    public static void updateLoose(String name){
         connect();
         try{
             int nb=0;

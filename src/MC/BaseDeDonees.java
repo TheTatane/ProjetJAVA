@@ -48,7 +48,7 @@ public abstract class BaseDeDonees {
         return false;
     }
 
-    public static void updateWin(String name){
+    public static void updateWin(String name) throws SQLException {
         connect();
         try{
             int nb=0;
@@ -65,9 +65,10 @@ public abstract class BaseDeDonees {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        connection.close();
     }
 
-    public static void updateLoose(String name){
+    public static void updateLoose(String name) throws SQLException {
         connect();
         try{
             int nb=0;
@@ -84,5 +85,52 @@ public abstract class BaseDeDonees {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        connection.close();
+    }
+
+    public static void insererPartie(String jeu,int NbJoueur) throws SQLException {
+        connect();
+        try{
+            Statement stmt = connection.createStatement();
+            String sql_add="INSERT INTO Partie (`NbJoueur`,`Jeu`) VALUES ("+NbJoueur+",'"+jeu+"');";
+            stmt.executeUpdate(sql_add);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        connection.close();
+    }
+
+    public static void setupGameWinner(int IDPartie,String name ) throws SQLException{
+        connect();
+        try{
+            Statement stmt=connection.createStatement();
+            if (playerexist(name)) {
+                String sql_update = "UPDATE Partie SET Gagnant='" + name + "' WHERE IDPartie=" + IDPartie + "";
+                stmt.executeUpdate(sql_update);
+            }
+            /*else {
+                System.out.println("error");
+            }*/
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        connection.close();
+    }
+
+    public static void setupGameLooser(int IDPartie,String name ) throws SQLException{
+        connect();
+        try{
+            Statement stmt=connection.createStatement();
+            if (playerexist(name)) {
+                String sql_update = "UPDATE Partie SET Perdant='" + name + "' WHERE IDPartie=" + IDPartie + "";
+                stmt.executeUpdate(sql_update);
+            }
+            /*else {
+                System.out.println("error");
+            }*/
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        connection.close();
     }
 }

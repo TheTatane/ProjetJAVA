@@ -41,7 +41,7 @@ public class DameChinoise extends Jeux {
         if(indexOfSuivant==this.joueur.size())
             indexOfSuivant=0;
         this.tourJoueur = this.joueur.get(indexOfSuivant);
-        if(this.joueur.equals("IA") && modeJeu == "IA") {
+        if(this.tourJoueur.equals("IA") && modeJeu == "IA") {
             ia();
             tourSuivant();
         }
@@ -78,23 +78,23 @@ public class DameChinoise extends Jeux {
                             nbColorWin++;
                     }
                     if (color.equals(Color.blue)) {
-                        if (victoire_br1(plateau.getCase(121)))
+                        if (victoire_br1(plateau.getCase(1)))
                             nbColorWin++;
                     }
                     if (color.equals(Color.pink)) {
-                        if (victoire_br6(plateau.getCase(121)))
+                        if (victoire_br6(plateau.getCase(23)))
                             nbColorWin++;
                     }
                     if (color.equals(Color.yellow)) {
-                        if (victoire_br3(plateau.getCase(121)))
+                        if (victoire_br3(plateau.getCase(99)))
                             nbColorWin++;
                     }
                     if (color.equals(Color.black)) {
-                        if (victoire_br2(plateau.getCase(121)))
+                        if (victoire_br2(plateau.getCase(11)))
                             nbColorWin++;
                     }
                     if (color.equals(Color.green)) {
-                        if (victoire_br5(plateau.getCase(121)))
+                        if (victoire_br5(plateau.getCase(111)))
                             nbColorWin++;
                     }
                 }
@@ -225,6 +225,9 @@ public class DameChinoise extends Jeux {
             if(tryPlay(color))
                 break;
         }
+        resetChecked();
+        playByMark();
+        resetMark();
     }
 
     public boolean tryPlay(Color color){
@@ -311,6 +314,7 @@ public class DameChinoise extends Jeux {
     public void mark(Case c){
         Case tmp=c;
         int distanceBranche=0;
+
         if(c.getPion().getCouleur() == Color.blue){
             // (30)
             if(c.getId() <= 46){
@@ -334,45 +338,123 @@ public class DameChinoise extends Jeux {
             }
             // (20)
             else if(c.getId() < 86 && c.getId() >= 47){
-
+                c.setMark(20);
             }
-
+            // (10)
             else if(this.getPlateau().isDeplacementPossible(c)){
                 c.setMark(10);
             }
+            // (0)
             else{
                 c.setMark(0);
             }
-
-
         }
+
         if(c.getPion().getCouleur() == Color.black){
+            while(  tmp.getH_gauche().getId() != 47 ||
+                    tmp.getH_gauche().getId() != 37 ||
+                    tmp.getH_gauche().getId() != 26 ||
+                    tmp.getH_gauche().getId() != 14) {
+                distanceBranche++;
+                tmp=tmp.getH_gauche();
+            }
+
+            if(this.getPlateau().isSautPossible(c)) {
+                if (distanceBranche < 5) c.setMark(30);
+                else if (distanceBranche < 7) c.setMark(20);
+                else if (distanceBranche >= 7) c.setMark(10);
+                else c.setMark(0);
+            }
+            else {
+                if (distanceBranche < 5) c.setMark(20);
+                else if (distanceBranche < 7) c.setMark(10);
+                else if (distanceBranche >= 7) c.setMark(10);
+                else c.setMark(0);
+            }
+
         }
         if(c.getPion().getCouleur() == Color.pink){
-            // (30)
-            while(  tmp.getH_droite().getId() != 1 ||
-                    tmp.getH_droite().getId() != 1 ||
-                    tmp.getH_droite().getId() != 1 ||
-                    tmp.getH_droite().getId() != 1)
+            while(  tmp.getH_droite().getId() != 20 ||
+                    tmp.getH_droite().getId() != 33 ||
+                    tmp.getH_droite().getId() != 45 ||
+                    tmp.getH_droite().getId() != 56) {
                 distanceBranche++;
-            if(distanceBranche < 5){
-                //30
+                tmp=tmp.getH_droite();
             }
-            else if(distanceBranche < 7){
-                //20
+
+            if(this.getPlateau().isSautPossible(c)) {
+                if (distanceBranche < 5) c.setMark(30);
+                else if (distanceBranche < 7) c.setMark(20);
+                else if (distanceBranche >= 7) c.setMark(10);
+                else {c.setMark(0);}
             }
-            else if(distanceBranche >= 7){
-                //10
+            else {
+                if (distanceBranche < 5) c.setMark(20);
+                else if (distanceBranche < 7) c.setMark(10);
+                else if (distanceBranche >= 7) c.setMark(10);
+                else {c.setMark(0);}
             }
-            else{
-                //0
-            }
+        }
+        System.out.println("CASE:"+c.getId()+", mark="+c.getMark());
+    }
+
+    public void printMark(){
+        for(int i=1; i<=121; i++){
+            System.out.println("ID : "+i+" -> "+plateau.getCase(i).getMark());
         }
     }
 
     public void resetMark(){
         for(int i=1; i<=121; i++)
             plateau.getCase(i).setMark(0);
+    }
+
+    public void playByMark(){
+        boolean played=false;
+        for (int i=1; i<=121; i++){
+            // Si c'est 30, on sais que c'est forcement un saut
+            if(plateau.getCase(i).getMark()==30){
+                int [] saut = this.getPlateau().sauts_disponibles(plateau.getCase(i));
+                for(int s=0; s<6; s++){
+                    System.out.println("////////////////////////////////// pour "+plateau.getCase(i).getId()+" -> "+saut[s]);
+                    if(saut[s] > 0 && !played) {
+                        this.getPlateau().changePosition(plateau.getCase(i), plateau.getCase(saut[s]));
+                        System.out.println("\t played "+i+" to "+saut[s]);
+                        played=true;
+                    }
+                }
+            }
+            else if(plateau.getCase(i).getMark()==20){
+                int [] move = this.getPlateau().deplacements_possibles(plateau.getCase(i));
+                for(int s=0; s<6; s++){
+                    if(move[s] > 0 && move[s] < plateau.getCase(i).getId()-2 && !played){
+                        this.getPlateau().changePosition(plateau.getCase(i), plateau.getCase(move[s]));
+                        System.out.println("\t played "+i+" to "+move[s]);
+                        played=true;
+                    }
+                }
+            }
+            else if(plateau.getCase(i).getMark()==10){
+                int [] move = this.getPlateau().deplacements_possibles(plateau.getCase(i));
+                int max=121;
+                for(int s=0; s<6; s++){
+                    if(move[s] < max && move[s]!=0) {
+                        max=move[s];
+                    }
+                }
+                if (!played) {
+                    this.getPlateau().changePosition(plateau.getCase(i), plateau.getCase(max));
+                    System.out.println("\t played "+i+" to "+plateau.getCase(max).getId());
+                    played=true;
+                }
+            }
+        }
+    }
+
+    public void resetChecked(){
+        for(int i=1; i<=121; i++){
+            plateau.getCase(i).setChecked(false);
+        }
     }
 
 

@@ -8,6 +8,7 @@ public class Case {
     private int id;     //numero case
     private boolean checked;    //attribut pour parcours recursif
     private int etat;   //vide (0) , pas vide (1), interdit (-1)
+    private int mark;  // (0) impossible, (10) peu utile, (20) cool, (30) prioritaire
 
     // cases voisines
     private Case droite;
@@ -110,19 +111,31 @@ public class Case {
         this.pion=new Pion();
     }
 
+    public void setMark(int m){
+        mark=m;
+    }
+
+    public int getMark(){
+        return mark;
+    }
+
     @Override
     public String toString() {
-        return "Case{" +
-                "pion=" + pion.toString() +
-                ", id=" + id +
-                ", checked=" + checked +
-                ", etat=" + etat +
-                ", droite=" + droite.getId() +
-                ", gauche=" + gauche.getId() +
-                ", H_gauche=" + H_gauche.getId() +
-                ", H_droite=" + H_droite.getId() +
-                ", B_gauche=" + B_gauche.getId() +
-                ", B_droite=" + B_droite.getId() +
-                '}';
+        String str="Case "+id+"\n";
+        str+= "\t checked "+checked+"\n";
+        str+= "\t etat"+etat+"\n";
+        if(droite!=null)
+            str+= "\t droite :"+droite.getId()+"\n";
+        if(gauche!=null)
+            str+= "\t gauche :"+gauche.getId()+"\n";
+        if(H_droite!=null)
+            str+= "\t H_droite :"+H_droite.getId()+"\n";
+        if(H_gauche!=null)
+            str+= "\t H_gauche :"+H_gauche.getId()+"\n";
+        if(B_droite!=null)
+            str+= "\t B_droite :"+B_droite.getId()+"\n";
+        if(B_gauche!=null)
+            str+= "\t B_gauche :"+B_gauche.getId()+"\n";
+        return str;
     }
 }

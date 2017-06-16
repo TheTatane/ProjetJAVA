@@ -29,9 +29,11 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
         dc=jeu;
 
         this.setBackground(Color.darkGray);
-        this.setLayout(new BorderLayout());
+        BorderLayout layout = new BorderLayout();
+        this.setLayout(layout);
 
-        panGame.setLayout(new GridBagLayout());
+        GridBagLayout gridLayout = new GridBagLayout();
+        panGame.setLayout(gridLayout);
         panGame.setBackground(Color.decode("#616161"));
 
         htmlTitle=setTitleName();
@@ -54,6 +56,7 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
             tabbutton[i].setPreferredSize(new Dimension(23,20));
             tabbutton[i].setBackground(Color.decode("#616161"));
             tabbutton[i].setName(Integer.toString(i));
+
             tabbutton[i].setBorder(new RoundedBorder(50));
             tabbutton[i].setForeground(plateau.getPlateau()[i].getPion().getCouleur());
         }
@@ -61,6 +64,8 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
         this.add(panGame, BorderLayout.CENTER);
         this.add(panTitle, BorderLayout.NORTH);
         this.add(panOption, BorderLayout.SOUTH);
+
+        System.out.println(dc.getJoueur().toString()+"\n\n"+dc.getJcolor()[0].toString()+"/"+dc.getJcolor()[1].toString());
     }
 
     public void draw(){
@@ -69,7 +74,7 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
         GridBagConstraints constraint = new GridBagConstraints();
         constraint.gridx=14;constraint.gridy=0;
         constraint.gridheight=1; constraint.gridwidth=1;
-        constraint.ipadx=1; constraint.ipady=5;
+        constraint.ipadx=5; constraint.ipady=10;
         for(int i=1; i<=10; i++){
             int finalI = i;
             tabbutton[i].addActionListener(this);
@@ -256,6 +261,8 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
             System.out.println("TOUR COURANT : "+dc.getTourJoueur());
         }
         updatePanTitle();
+        if(dc.getModeJeu().equals("IA"))
+            refreshBoard();
         if(dc.checkVictoire()>-1){
             showVictoire();
         }
@@ -265,6 +272,7 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
         if(source.equals(btnPasserTour)){
             dc.tourSuivant();
             updatePanTitle();
+            refreshBoard();
         }
     }
 
@@ -284,5 +292,13 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
             }
         }
         btnBackMenu.doClick();
+    }
+
+    public void refreshBoard(){
+        for(int i=1; i<=121; i++){
+            if(!tabbutton[i].getForeground().equals(plateau.getCase(i).getPion().getCouleur())){
+                tabbutton[i].setForeground(plateau.getCase(i).getPion().getCouleur());
+            }
+        }
     }
 }

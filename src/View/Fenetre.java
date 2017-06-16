@@ -22,65 +22,56 @@ public class Fenetre extends JFrame implements ActionListener {
     JButton bAbalone, bDameChinoise;
     CardLayout cl = new CardLayout();
     Menu menu = new Menu();
-    AbaloneUI abaloneUI;
     DameChinoiseUI dameChinoiseUI;
-    Jeux jeu;
-
-	public Fenetre(int W, int H, String T){
-		height=H;
-		width=W;
-		title=T;
-		this.setTitle(this.title);
-		this.setSize(this.width, this.height);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
-
-        // AFFICHE MENU
-        menu.bSuivant.addActionListener(this);
-        menu.menuAbalone.btn.addActionListener(this);
-        menu.bJouer.addActionListener(this);
-        setContentPane(menu);
-        setVisible(true);
-    }
+    AbaloneUI abaloneUI;
 
     public Fenetre(){
+        this.setTitle(this.title);
+        this.setSize(900, 400);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
         menu.bSuivant.addActionListener(this);
-        menu.menuAbalone.btn.addActionListener(this);
         menu.bJouer.addActionListener(this);
         setContentPane(menu);
         setVisible(true);
-    }
-
-    public void setJeu(Jeux j){
-        jeu=j;
-        if(j.getClass() == DameChinoise.class)
-            dameChinoiseUI = new DameChinoiseUI((DameChinoise)jeu);
-        if(j.getClass() == Abalone.class)
-            abaloneUI = new AbaloneUI((Abalone)jeu);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object object = e.getSource();
-        if(object == menu.menuAbalone.btn){
-            System.out.println("test");
-        }
 
-        if(object == menu.bSuivant){
-            menu.cardLayout.next(menu.panelCard);
-        }
-
+        // BOUTON JOUER, ON DECIDE QUEL JEU SERA LANCE
         if(object == menu.bJouer){
+
+            /////////////////////////////////////////////////////////////////////////////////////
+            // AFFICHER INTERFACE ABALONE
             if(menu.menuAbalone.isVisible()) {
+
+                setSize(1100, 800);
+                abaloneUI = new AbaloneUI(new Abalone());
                 setContentPane(abaloneUI);
             }
+
+            /////////////////////////////////////////////////////////////////////////////////////
+            // AFFICHER INTERFACE DAME CHINOISE
             else if(menu.menuDameChinoise.isVisible()){
+
+                setSize(1100, 800);
+                DameChinoise dameChinoise = new DameChinoise(menu.nbJoueur, menu.nbColor, menu.mode);
+                for(int i=0; i<menu.nbJoueur; i++){
+                    dameChinoise.addJoueur(menu.joueurs[i]);
+                }
+                dameChinoise.setTourJoueur(dameChinoise.getJoueur().get(0));
+                dameChinoiseUI = new DameChinoiseUI(dameChinoise);
                 setContentPane(dameChinoiseUI);
+
+                //bouton quitter
                 dameChinoiseUI.btnBackMenu.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         setContentPane(menu);
+                        setSize(800, 400);
                     }
                 });
             }

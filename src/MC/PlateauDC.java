@@ -30,6 +30,7 @@ public class PlateauDC extends Plateau {
                 //erreur
                 break;
         }
+        fillBases();
     }
 
     public void createBoard() {
@@ -489,7 +490,7 @@ public class PlateauDC extends Plateau {
 
         //saut à droite
         if (c.getDroite() != null){
-            if (c.getDroite().getDroite() != null && c.getDroite().getDroite().getEtat() == 0){
+            if (c.getDroite().getDroite() != null && c.getDroite().getDroite().getEtat() == 0 && c.getDroite().getEtat()==1){
                 (dispo)[i]=c.getDroite().getDroite().getId();
                 i++;
             }
@@ -497,7 +498,7 @@ public class PlateauDC extends Plateau {
 
         //saut à gauche
         if (c.getGauche() != null){
-            if (c.getGauche().getGauche() != null && c.getGauche().getGauche().getEtat() == 0){
+            if (c.getGauche().getGauche() != null && c.getGauche().getGauche().getEtat() == 0  && c.getGauche().getEtat()==1){
                 (dispo)[i]=c.getGauche().getGauche().getId();
                 i++;
             }
@@ -505,7 +506,7 @@ public class PlateauDC extends Plateau {
 
         //saut haut droite
         if (c.getH_droite() != null){
-            if (c.getH_droite().getH_droite() != null && c.getH_droite().getH_droite().getEtat() == 0){
+            if (c.getH_droite().getH_droite() != null && c.getH_droite().getH_droite().getEtat() == 0 && c.getH_droite().getEtat()==1){
                 (dispo)[i]=c.getH_droite().getH_droite().getId();
                 i++;
             }
@@ -513,7 +514,7 @@ public class PlateauDC extends Plateau {
 
         //saut haut gauche
         if (c.getH_gauche() != null){
-            if (c.getH_gauche().getH_gauche()!= null && c.getH_gauche().getH_gauche().getEtat() == 0){
+            if (c.getH_gauche().getH_gauche()!= null && c.getH_gauche().getH_gauche().getEtat() == 0 && c.getH_gauche().getEtat()==1){
                 (dispo)[i]=c.getH_gauche().getH_gauche().getId();
                 i++;
             }
@@ -521,7 +522,7 @@ public class PlateauDC extends Plateau {
 
         //saut bas droite
         if (c.getB_droite() != null){
-            if (c.getB_droite().getB_droite() != null && c.getB_droite().getB_droite().getEtat() == 0){
+            if (c.getB_droite().getB_droite() != null && c.getB_droite().getB_droite().getEtat() == 0 && c.getB_droite().getEtat()==1){
                 (dispo)[i]=c.getB_droite().getB_droite().getId();
                 i++;
             }
@@ -529,7 +530,7 @@ public class PlateauDC extends Plateau {
 
         //saut bas gauche
         if (c.getB_gauche() != null){
-            if (c.getB_gauche().getB_gauche() != null && c.getB_gauche().getB_gauche().getEtat() == 0){
+            if (c.getB_gauche().getB_gauche() != null && c.getB_gauche().getB_gauche().getEtat() == 0 && c.getB_gauche().getEtat()==1){
                 (dispo)[i]=c.getB_gauche().getB_gauche().getId();
                 i++;
             }
@@ -705,37 +706,72 @@ public class PlateauDC extends Plateau {
         return false;
     }
 
+    public boolean isSautPossible(Case c){
+        int sautDispo[] = sauts_disponibles(c);
+        for (int i=0 ; i<6; i++){
+            if ((sautDispo)[i] > 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isDeplacementPossible(Case c){
+        int deplacementDispo[] = deplacements_possibles(c);
+        for (int i=0 ; i<6; i++){
+            if ((deplacementDispo)[i] > 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public void affiche_plateau() {
         for (int i = 1; i <= plateau.length - 1; i++) {
-            System.out.println("le noeud " + i + " a pour voisin : " + plateau[i].getId());
-            afficher_voisins_console(plateau[i]);
+            System.out.println("CASE :"+plateau[i].toString());
         }
     }
 
     public void afficher_voisins_console(Case c) {
-        if (c.getDroite() != null) {
-            System.out.println(" \t droite : " + c.getDroite().getId());
-        }
-        if (c.getGauche() != null) {
-            System.out.println(" \t gauche : " + c.getGauche().getId());
-        }
-        if (c.getB_droite() != null) {
-            System.out.println(" \t bas_d : " + c.getB_droite().getId());
-        }
-        if (c.getB_gauche() != null) {
-            System.out.println(" \t bas_g : " + c.getB_gauche().getId());
-        }
-        if (c.getH_droite() != null) {
-            System.out.println(" \t haut_d : " + c.getH_droite().getId());
-        }
-        if (c.getH_gauche() != null) {
-            System.out.println(" \t haut_g : " + c.getH_gauche().getId());
-        }
-        System.out.println("\n");
+        System.out.println(c.toString());
     }
 
-
-
+    public void fillBases(){
+        int i=0;
+        for(i=1; i<=10; i++){
+            plateau[i].setEtat(1);
+        }
+        plateau[47].setEtat(1);
+        plateau[36].setEtat(1);plateau[37].setEtat(1);
+        plateau[24].setEtat(1);plateau[25].setEtat(1);plateau[26].setEtat(1);
+        for(i=11; i<=14; i++){
+            plateau[i].setEtat(1);
+        }
+        plateau[66].setEtat(1);
+        plateau[76].setEtat(1);plateau[77].setEtat(1);
+        plateau[87].setEtat(1);plateau[88].setEtat(1);plateau[89].setEtat(1);
+        for(i=99; i<=102; i++){
+            plateau[i].setEtat(1);
+        }
+        plateau[75].setEtat(1);
+        plateau[85].setEtat(1);plateau[86].setEtat(1);
+        plateau[96].setEtat(1);plateau[97].setEtat(1);plateau[98].setEtat(1);
+        for(i=108; i<=111; i++){
+            plateau[i].setEtat(1);
+        }
+        plateau[75].setEtat(1);
+        plateau[85].setEtat(1);plateau[86].setEtat(1);
+        plateau[96].setEtat(1);plateau[97].setEtat(1);plateau[98].setEtat(1);
+        for(i=108; i<=121; i++){
+            plateau[i].setEtat(1);
+        }
+        plateau[56].setEtat(1);
+        plateau[45].setEtat(1);plateau[46].setEtat(1);
+        plateau[33].setEtat(1);plateau[34].setEtat(1);plateau[35].setEtat(1);
+        for(i=20; i<=23; i++){
+            plateau[i].setEtat(1);
+        }
+    }
 }

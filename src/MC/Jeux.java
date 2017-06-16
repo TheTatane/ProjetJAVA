@@ -45,9 +45,7 @@ public abstract class Jeux {
         this.modeJeu = modeJeu;
     }
 
-    public Plateau getPlateau() {
-        return plateau;
-    }
+
 
     public ArrayList<Color>[] getJcolor() {
         return jcolor;

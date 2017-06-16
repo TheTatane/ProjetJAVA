@@ -351,10 +351,11 @@ public class DameChinoise extends Jeux {
         }
 
         if(c.getPion().getCouleur() == Color.black){
-            while(  tmp.getH_gauche().getId() != 47 ||
-                    tmp.getH_gauche().getId() != 37 ||
-                    tmp.getH_gauche().getId() != 26 ||
-                    tmp.getH_gauche().getId() != 14) {
+            while(  tmp.getH_gauche().getId() != 7 &&
+                    tmp.getH_gauche().getId() != 8 &&
+                    tmp.getH_gauche().getId() != 9 &&
+                    tmp.getH_gauche().getId() != 10&&
+                    tmp.getH_droite() != null) {
                 distanceBranche++;
                 tmp=tmp.getH_gauche();
             }
@@ -374,10 +375,11 @@ public class DameChinoise extends Jeux {
 
         }
         if(c.getPion().getCouleur() == Color.pink){
-            while(  tmp.getH_droite().getId() != 20 ||
-                    tmp.getH_droite().getId() != 33 ||
-                    tmp.getH_droite().getId() != 45 ||
-                    tmp.getH_droite().getId() != 56) {
+            while(  tmp.getH_droite().getId() != 7 &&
+                    tmp.getH_droite().getId() != 8 &&
+                    tmp.getH_droite().getId() != 9 &&
+                    tmp.getH_droite().getId() != 10&&
+                    tmp.getH_droite() != null) {
                 distanceBranche++;
                 tmp=tmp.getH_droite();
             }

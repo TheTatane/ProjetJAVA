@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -283,13 +284,16 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
                 "Victoire", JOptionPane.PLAIN_MESSAGE);
 
         // sauvegarde partie BD
-        BaseDeDonees.connect();
-        BaseDeDonees.updateWin(victoriousName);
-        for(String joueurLoose : dc.getJoueur()){
-            if(joueurLoose != victoriousName) {
-                BaseDeDonees.updateLoose(joueurLoose);
-                //insert dans partie
+        try {
+            BaseDeDonees.updateWin(victoriousName);
+            for(String joueurLoose : dc.getJoueur()){
+                if(joueurLoose != victoriousName) {
+                    BaseDeDonees.updateLoose(joueurLoose);
+                    //insert dans partie
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         btnBackMenu.doClick();
     }

@@ -11,7 +11,8 @@ public class Main {
     public static void main (String[] args){
 
         Fenetre f = new Fenetre();
-
+        DameChinoise d = new DameChinoise(2, 3, "IA");
+        d.getPlateau().affiche_plateau();
 
     }
 }

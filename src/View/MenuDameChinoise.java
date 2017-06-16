@@ -85,10 +85,10 @@ public class MenuDameChinoise extends JPanel implements ActionListener {
     }
 
     public void initTextAreas(){
-        textJ1=new JTextField(10);
-        textJ2=new JTextField(10);
-        textJ3=new JTextField(10);
-        textJ4=new JTextField(10);
+        textJ1=new JTextField(10);textJ1.setText("J1");
+        textJ2=new JTextField(10);textJ2.setText("J2");
+        textJ3=new JTextField(10);textJ3.setText("J3");
+        textJ4=new JTextField(10);textJ4.setText("J4");
         /*constraint.gridx=0;
         this.add(textJ1, constraint);
         constraint.gridx++;

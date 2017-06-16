@@ -342,7 +342,7 @@ public class PlateauDC extends Plateau {
                 if (pos == 66) return true;
                 break;
             case 7:
-                if (pos == 77) return true;
+                if (pos == 76) return true;
                 break;
             case 8:
                 if (pos == 87) return true;

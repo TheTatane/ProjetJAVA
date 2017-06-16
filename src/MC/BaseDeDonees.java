@@ -88,11 +88,11 @@ public abstract class BaseDeDonees {
         connection.close();
     }
 
-    public static void insererPartie(String jeu,int NbJoueur) throws SQLException {
+    public static void insererPartie(String jeu,int NbJoueur, String gagnant) throws SQLException {
         connect();
         try{
             Statement stmt = connection.createStatement();
-            String sql_add="INSERT INTO Partie (`NbJoueur`,`Jeu`) VALUES ("+NbJoueur+",'"+jeu+"');";
+            String sql_add="INSERT INTO Partie (`NbJoueur`,`Jeu`, `Gagnant`) VALUES ("+NbJoueur+",'"+jeu+"','"+gagnant+"');";
             stmt.executeUpdate(sql_add);
         }catch (Exception e){
             e.printStackTrace();
@@ -132,5 +132,26 @@ public abstract class BaseDeDonees {
             e.printStackTrace();
         }
         connection.close();
+    }
+
+    public static void insererPerdant(int IDPartie , String perdant) throws SQLException {
+        connect();
+        try{
+            Statement stmt = connection.createStatement();
+            String sql_add="INSERT INTO Perdant (`IDPartie`,`NomPerdant`) VALUES ("+IDPartie+",'"+perdant+"');";
+            stmt.executeUpdate(sql_add);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        connection.close();
+    }
+
+    public static int getLastIDPartie() throws SQLException {
+        connect();
+        String sql="SELECT max(IDPartie) FROM Partie;";
+        Statement stmt=connection.createStatement();
+        ResultSet rs=stmt.executeQuery(sql);
+        rs.next();
+        return rs.getInt(1);
     }
 }

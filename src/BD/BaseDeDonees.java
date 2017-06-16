@@ -1,4 +1,4 @@
-package MC;
+package BD;
 
 import java.sql.*;
 
@@ -95,40 +95,6 @@ public abstract class BaseDeDonees {
             String sql_add="INSERT INTO Partie (`NbJoueur`,`Jeu`, `Gagnant`) VALUES ("+NbJoueur+",'"+jeu+"','"+gagnant+"');";
             stmt.executeUpdate(sql_add);
         }catch (Exception e){
-            e.printStackTrace();
-        }
-        connection.close();
-    }
-
-    public static void setupGameWinner(int IDPartie,String name ) throws SQLException{
-        connect();
-        try{
-            Statement stmt=connection.createStatement();
-            if (playerexist(name)) {
-                String sql_update = "UPDATE Partie SET Gagnant='" + name + "' WHERE IDPartie=" + IDPartie + "";
-                stmt.executeUpdate(sql_update);
-            }
-            /*else {
-                System.out.println("error");
-            }*/
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        connection.close();
-    }
-
-    public static void setupGameLooser(int IDPartie,String name ) throws SQLException{
-        connect();
-        try{
-            Statement stmt=connection.createStatement();
-            if (playerexist(name)) {
-                String sql_update = "UPDATE Partie SET Perdant='" + name + "' WHERE IDPartie=" + IDPartie + "";
-                stmt.executeUpdate(sql_update);
-            }
-            /*else {
-                System.out.println("error");
-            }*/
-        } catch (SQLException e) {
             e.printStackTrace();
         }
         connection.close();

@@ -17,8 +17,8 @@ public class MenuAbalone extends JPanel {
 
     public MenuAbalone(){
         //UI
-        this.setBackground(Color.darkGray);
-        this.add(new JLabel("<html> <font color='white' size='7'> Abalone </font> </html>"));
+        this.setBackground(Color.white);
+        this.add(new JLabel("<html> <font color='black' size='7'> Abalone </font> </html>"));
     }
 
 

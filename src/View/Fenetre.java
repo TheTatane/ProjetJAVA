@@ -1,15 +1,13 @@
 package View;
 
-import MC.Abalone;
-import MC.DameChinoise;
-import MC.Jeux;
-import MC.Plateau;
+import BD.BaseDeDonees;
+import BD.ThreadAddPlayer;
+import MC.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import javax.swing.*;
 
 
@@ -57,13 +55,15 @@ public class Fenetre extends JFrame implements ActionListener {
             // AFFICHER INTERFACE DAME CHINOISE
             else if(menu.menuDameChinoise.isVisible()){
 
-                setSize(1100, 800);
                 DameChinoise dameChinoise = new DameChinoise(menu.nbJoueur, menu.nbColor, menu.mode);
                 for(int i=0; i<menu.nbJoueur; i++){
                     dameChinoise.addJoueur(menu.joueurs[i]);
                 }
+                ThreadAddPlayer threadAddPlayer = new ThreadAddPlayer(menu.joueurs);
+                threadAddPlayer.start();
                 dameChinoise.setTourJoueur(dameChinoise.getJoueur().get(0));
                 dameChinoiseUI = new DameChinoiseUI(dameChinoise);
+                setSize(1100, 800);
                 setContentPane(dameChinoiseUI);
 
                 //bouton quitter

@@ -21,7 +21,7 @@ public class Menu extends JPanel implements ActionListener{
     MenuAbalone menuAbalone;
     MenuDameChinoise menuDameChinoise;
 
-    JButton bSuivant=new JButton("SUIVANT");
+    JButton bSuivant=new JButton("<html> N <br> E <br> X <br> T </html>");
     CardLayout cardLayout = new CardLayout();
     JPanel panelCard;
     BoutonJouer bJouer= new BoutonJouer();
@@ -38,6 +38,7 @@ public class Menu extends JPanel implements ActionListener{
             joueurs[i]=null;
         }
         //UI
+        bSuivant.setBackground(Color.decode("#90A4AE"));
         menuAbalone = new MenuAbalone();
         menuDameChinoise = new MenuDameChinoise();
         this.setLayout(new BorderLayout());

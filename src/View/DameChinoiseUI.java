@@ -1,5 +1,7 @@
 package View;
 
+import BD.BaseDeDonees;
+import BD.ThreadSavePartie;
 import MC.*;
 
 import javax.swing.*;
@@ -7,7 +9,6 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.RoundRectangle2D;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
 
     int idsrc=0, iddest=0;
 
-    public DameChinoiseUI(DameChinoise jeu){
+    public DameChinoiseUI(DameChinoise jeu) {
         plateau= (PlateauDC) jeu.getPlateau();
         dc=jeu;
 
@@ -284,17 +285,8 @@ public class DameChinoiseUI extends JPanel implements ActionListener {
                 "Victoire", JOptionPane.PLAIN_MESSAGE);
 
         // sauvegarde partie BD
-        try {
-            BaseDeDonees.updateWin(victoriousName);
-            for(String joueurLoose : dc.getJoueur()){
-                if(joueurLoose != victoriousName) {
-                    BaseDeDonees.updateLoose(joueurLoose);
-                    //insert dans partie
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        ThreadSavePartie threadSavePartie = new ThreadSavePartie(victoriousName, dc.getJoueur());
+        threadSavePartie.start();
         btnBackMenu.doClick();
     }
 

@@ -20,7 +20,7 @@ public class MenuDameChinoise extends JPanel implements ActionListener {
 
     public MenuDameChinoise(){
         // UI
-        this.setBackground(Color.darkGray);
+        this.setBackground(Color.white);
         this.setLayout(new GridBagLayout());
         constraint = new GridBagConstraints();
         // LIGNE 1
@@ -52,7 +52,7 @@ public class MenuDameChinoise extends JPanel implements ActionListener {
     }
 
     public String htmlTitre(){
-        return "<html> <font color='white' size='7'> Dame Chinoise </font> </html>";
+        return "<html> <font color='#263238' size='7'> Dame Chinoise </font> </html>";
     }
 
     public void initJcomboBoxes(){
